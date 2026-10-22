@@ -1,0 +1,1807 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KASAWAT STORE | الواجهة الرئيسية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            /* الألوان الأساسية - الوضع الليلي (الكحلي الفاخر والذهبي) */
+            --bg-dark: #040914; 
+            --bg-sidebar: #0a1128; 
+            --card-bg: rgba(10, 17, 40, 0.85); 
+            --item-card-bg: #080f24;
+            --item-card-border: #1a2342;
+            
+            --gold-main: #FFD700; 
+            --gold-glow: rgba(255, 215, 0, 0.45);
+            --border-glow: rgba(0, 240, 255, 0.2); 
+            --cyan-glow: #00f0ff; 
+            --white-glow: #ffffff; 
+            
+            --text-main: #f8fafc; 
+            --text-sub: #94a3b8; 
+            --whatsapp-color: #25D366; 
+            --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+
+            /* ألوان قائمة العملات */
+            --currency-bg: #0d1b2a;
+            --currency-border: #00f0ff;
+            --currency-text: #00f0ff;
+            --currency-hover-bg: rgba(0, 240, 255, 0.12);
+        }
+
+        /* الوضع الفاتح المتناسق بالكامل */
+        .light-theme {
+            --bg-dark: #f0f4f8; 
+            --bg-sidebar: #ffffff; 
+            --card-bg: #ffffff;
+            --item-card-bg: #ffffff;
+            --item-card-border: #cbd5e1;
+            
+            --border-glow: rgba(2, 132, 199, 0.25); 
+            --cyan-glow: #0284c7; 
+            --gold-main: #b48608;
+            --gold-glow: rgba(180, 134, 8, 0.25);
+            --white-glow: #0f172a; 
+            --text-main: #0f172a; 
+            --text-sub: #475569;
+
+            --currency-bg: #f8fafc;
+            --currency-border: #0284c7;
+            --currency-text: #0284c7;
+            --currency-hover-bg: rgba(2, 132, 199, 0.1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; transition: var(--transition); }
+        body { background-color: var(--bg-dark); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+
+        /* --- الهيدر المتجاوب الذكي --- */
+        header {
+            width: 100%; min-height: 80px; background-color: var(--bg-sidebar); border-bottom: 2px solid var(--gold-main); 
+            padding: 10px 25px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 5px 25px rgba(0, 0, 0, 0.35);
+        }
+
+        .header-side { flex: 1; display: flex; align-items: center; }
+        .header-left { justify-content: flex-start; gap: 10px; }
+        .header-right { justify-content: flex-end; gap: 10px; position: relative; }
+
+        .logo-area { display: flex; align-items: center; gap: 10px; text-decoration: none; cursor: pointer; justify-content: center; }
+        .logo-crown { font-size: 30px; color: var(--gold-main); text-shadow: 0 0 18px var(--gold-glow); animation: pulseCrown 2.5s infinite; }
+        .logo-text { font-size: 32px; font-weight: 900; color: var(--gold-main); text-shadow: 0 0 15px var(--gold-glow); letter-spacing: 1px; white-space: nowrap; }
+        .logo-text span { font-weight: 900; font-size: 22px; color: var(--white-glow); }
+
+        @keyframes pulseCrown { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.12); } }
+
+        /* زر تسجيل اسم العميل في الهيدر */
+        .user-quick-btn {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid var(--gold-main);
+            color: var(--gold-main);
+            border-radius: 30px;
+            padding: 7px 14px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+        .user-quick-btn:hover { background: var(--gold-main); color: #000; box-shadow: 0 0 15px var(--gold-glow); }
+
+        /* قائمة العملات */
+        .currency-switch-container { position: relative; display: inline-block; }
+        .currency-switch { 
+            background: var(--currency-bg); border: 1px solid var(--currency-border); border-radius: 30px; 
+            padding: 7px 14px; display: flex; align-items: center; gap: 8px; color: var(--currency-text); 
+            cursor: pointer; font-size: 13px; font-weight: 700; box-shadow: 0 2px 8px rgba(0,0,0,0.15); white-space: nowrap;
+        }
+        .currency-switch:hover { box-shadow: 0 0 12px var(--border-glow); }
+        .currency-dropdown {
+            display: none; position: absolute; top: calc(100% + 8px); left: 0;
+            background-color: var(--currency-bg); border: 1px solid var(--currency-border);
+            border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.4); z-index: 200; width: 190px; overflow: hidden; flex-direction: column;
+        }
+        .currency-dropdown.show { display: flex; animation: fadeIn 0.2s ease-out; }
+        .currency-option { padding: 11px 15px; color: var(--text-main); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(128,128,128,0.12); font-size: 13px; font-weight: 700; cursor: pointer; }
+        .currency-option:last-child { border-bottom: none; }
+        .currency-option:hover { background-color: var(--currency-hover-bg); color: var(--currency-text); padding-right: 20px; }
+
+        .theme-toggle { 
+            background: rgba(255,255,255,0.04); border: 1px solid var(--border-glow); width: 38px; height: 38px; 
+            border-radius: 50%; font-size: 17px; color: var(--gold-main); cursor: pointer; display: flex; justify-content: center; align-items: center; flex-shrink: 0;
+        }
+        .theme-toggle:hover { background: var(--gold-main); color: #000; }
+
+        /* --- الشريط التسويقي الاحترافي --- */
+        .offers-bar {
+            width: 100%; background: linear-gradient(90deg, rgba(10,17,40,0.9), rgba(255, 215, 0, 0.12), rgba(10,17,40,0.9)); 
+            color: var(--gold-main); padding: 10px 0; font-weight: 700; font-size: 15px; 
+            border-bottom: 1px solid rgba(255, 215, 0, 0.25); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); z-index: 95;
+        }
+        .offers-bar span.contact-highlight { color: #fff; background: rgba(255, 215, 0, 0.2); padding: 2px 12px; border-radius: 20px; margin: 0 8px; border: 1px solid var(--gold-main); display: inline-block; }
+        .light-theme .offers-bar span.contact-highlight { color: #0f172a; background: rgba(180, 134, 8, 0.15); }
+
+        /* --- الهيكل الرئيسي والقائمة الجانبية --- */
+        .main-container { display: flex; flex: 1; width: 100%; max-width: 1600px; margin: 0 auto; }
+        aside { width: 260px; background-color: var(--bg-sidebar); border-left: 1px solid var(--border-glow); padding: 25px 18px; display: flex; flex-direction: column; gap: 20px; flex-shrink: 0; z-index: 90; }
+        
+        .user-panel { background: rgba(255, 215, 0, 0.04); border: 1px solid rgba(255, 215, 0, 0.25); border-radius: 14px; padding: 20px 15px; text-align: center; cursor: pointer; position: relative; }
+        .user-panel:hover { background: rgba(255, 215, 0, 0.08); box-shadow: 0 0 20px rgba(255, 215, 0, 0.15); }
+        .user-avatar { width: 62px; height: 62px; border-radius: 50%; border: 2px solid var(--gold-main); margin: 0 auto 10px auto; display: flex; justify-content: center; align-items: center; background: rgba(255, 215, 0, 0.1); box-shadow: 0 0 15px var(--gold-glow); }
+        .user-avatar i { font-size: 28px; color: var(--gold-main); }
+        .vip-badge { background: linear-gradient(45deg, #FFD700, #ffa500); color: #000; font-size: 11px; font-weight: 900; padding: 3px 10px; border-radius: 10px; display: inline-block; margin-bottom: 6px; }
+        .username { font-weight: 900; font-size: 16px; color: var(--white-glow); letter-spacing: 0.5px; margin-bottom: 6px; }
+        .edit-name-hint { font-size: 11px; color: var(--cyan-glow); display: inline-flex; align-items: center; gap: 4px; font-weight: 700; }
+
+        .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+        .sidebar-menu li a { display: flex; align-items: center; gap: 12px; color: var(--text-sub); text-decoration: none; padding: 12px 15px; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; background: rgba(128,128,128,0.04); border: 1px solid transparent; }
+        .sidebar-menu li a:hover, .sidebar-menu li.active a { color: var(--gold-main); background: rgba(255, 215, 0, 0.08); border-right: 3px solid var(--gold-main); border-color: rgba(255, 215, 0, 0.15); }
+        .sidebar-menu li a i { font-size: 18px; width: 22px; text-align: center; }
+        .sidebar-menu li a.wa-link { color: #25D366; } .sidebar-menu li a.fb-link { color: #1877F2; } .sidebar-menu li a.ig-link { color: #E1306C; }
+
+        .content-area { flex: 1; padding: 30px; position: relative; }
+        
+        /* شريط العنوان والبحث */
+        .top-bar-controls { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 35px; }
+        .section-title { font-weight: 900; border-right: 4px solid var(--gold-main); padding-right: 12px; color: var(--white-glow); font-size: 24px; margin: 0; }
+        
+        .search-box { position: relative; width: 300px; max-width: 100%; }
+        .search-box input {
+            width: 100%; padding: 10px 40px 10px 15px; border-radius: 30px; border: 1px solid var(--border-glow);
+            background: var(--card-bg); color: var(--text-main); font-size: 14px; outline: none;
+        }
+        .search-box input:focus { border-color: var(--gold-main); box-shadow: 0 0 12px var(--gold-glow); }
+        .search-box i { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--gold-main); }
+
+        .view-section { display: none; animation: fadeIn 0.35s ease-out forwards; }
+        .view-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- الكروت الأساسية (الأقسام الرئيسية) --- */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 25px; }
+        .section-card {
+            background: var(--card-bg); border: 1px solid var(--border-glow); border-radius: 20px; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center; padding: 30px 15px; cursor: pointer; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+            position: relative; overflow: hidden; backdrop-filter: blur(10px);
+        }
+        .section-card::before {
+            content: ''; position: absolute; inset: 0; border-radius: 20px; padding: 2px;
+            background: linear-gradient(135deg, var(--cyan-glow), transparent, var(--gold-main));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0.55;
+        }
+        .section-card:hover { transform: translateY(-7px); box-shadow: 0 12px 30px rgba(0, 240, 255, 0.22); border-color: var(--cyan-glow); }
+        .card-title { font-size: 17px; font-weight: 900; color: var(--white-glow); margin-top: 15px; z-index: 10; }
+        .card-watermark { position: absolute; bottom: 8px; left: 14px; font-size: 10px; font-weight: 900; color: var(--gold-main); opacity: 0.28; z-index: 1; pointer-events: none; letter-spacing: 1px; font-family: Arial, sans-serif; }
+
+        .floating-icons { position: relative; width: 100px; height: 100px; margin-bottom: 12px; z-index: 5; }
+        .floating-icons i { position: absolute; text-shadow: 0 0 15px currentColor; filter: drop-shadow(0 4px 5px rgba(0,0,0,0.4)); }
+        .ic-main { top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 52px; z-index: 5; animation: floatMain 3s ease-in-out infinite; }
+        .ic-tl { top: 5px; right: -5px; font-size: 25px; animation: floatSmall 2.5s ease-in-out infinite; z-index: 2; }
+        .ic-tr { top: -5px; left: -5px; font-size: 23px; animation: floatSmall 3.5s ease-in-out infinite; z-index: 2; }
+        .ic-bl { bottom: 5px; right: -5px; font-size: 26px; animation: floatSmall 3s ease-in-out infinite; z-index: 6; }
+        .ic-br { bottom: 0px; left: -8px; font-size: 24px; animation: floatSmall 4s ease-in-out infinite; z-index: 6; }
+
+        @keyframes floatMain { 0%, 100% { transform: translate(-50%, -50%); } 50% { transform: translate(-50%, -58%); } }
+        @keyframes floatSmall { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+
+        /* زر الرجوع التفاعلي */
+        .back-btn { 
+            display: inline-flex; align-items: center; gap: 10px; background: rgba(255, 215, 0, 0.1); color: var(--gold-main); 
+            text-decoration: none; font-weight: 900; font-size: 15px; margin-bottom: 25px; cursor: pointer; 
+            padding: 8px 20px; border-radius: 30px; border: 1px solid var(--gold-main); box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .back-btn:hover { background: var(--gold-main); color: #000; transform: translateX(6px); box-shadow: 0 0 18px var(--gold-glow); }
+
+        .sub-header { display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(128, 128, 128, 0.2); padding-bottom: 15px; margin-bottom: 25px; }
+        .sub-header h2 { font-size: 22px; color: var(--white-glow); margin: 0; font-weight: 900; }
+        .sub-header i { font-size: 26px; color: var(--gold-main); }
+
+        .category-group-title {
+            font-size: 19px; font-weight: 900; color: var(--gold-main); margin: 25px 0 15px 0;
+            padding-bottom: 8px; border-bottom: 1px dashed rgba(255, 215, 0, 0.3); display: flex; align-items: center; gap: 10px;
+        }
+
+        /* --- الكروت الفرعية للخدمات (Micro-services) --- */
+        .sub-services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(275px, 1fr)); gap: 20px; margin-bottom: 35px;}
+        
+        .item-card { 
+            background: var(--item-card-bg); border: 1px solid var(--item-card-border); border-radius: 14px; padding: 22px 18px; 
+            text-align: right; cursor: default; box-shadow: 0 4px 15px rgba(0,0,0,0.2); 
+            display: flex; flex-direction: column; position: relative; overflow: hidden; 
+        }
+        .item-card:hover { border-color: var(--gold-main); transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35); }
+        
+        .card-header-flex { display: flex; align-items: center; justify-content: flex-start; flex-direction: row-reverse; gap: 14px; margin-bottom: 14px; z-index: 5; position: relative;}
+        
+        .item-image { 
+            width: 50px; height: 50px; background: rgba(128,128,128,0.06); border-radius: 50%; 
+            display: flex; justify-content: center; align-items: center; font-size: 24px; 
+            border: 1px dashed rgba(128,128,128,0.3); flex-shrink: 0; 
+        }
+        .item-card:hover .item-image { transform: scale(1.1); border-color: var(--gold-main); }
+        
+        .item-title { font-size: 16px; font-weight: 900; color: var(--white-glow); flex-grow: 1; text-align: right; line-height: 1.4;}
+        .item-desc { font-size: 13px; color: var(--text-sub); margin-bottom: 15px; z-index: 5; position: relative; line-height: 1.6; flex-grow: 1;}
+        
+        /* شارة السعر الثابت للباقات والألعاب */
+        .fixed-price-box {
+            background: rgba(46, 204, 113, 0.08);
+            border: 1px dashed rgba(46, 204, 113, 0.4);
+            border-radius: 10px;
+            padding: 10px 14px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 5;
+        }
+        .fixed-price-label { font-size: 13px; font-weight: 700; color: var(--text-main); }
+        .fixed-price-val { font-size: 18px; font-weight: 900; color: #2ecc71; direction: ltr; }
+
+        /* --- حاسبة الكمية والسعر التفاعلية --- */
+        .calc-box {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(0, 240, 255, 0.18);
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 16px;
+            z-index: 5;
+            position: relative;
+        }
+        .light-theme .calc-box {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
+        .calc-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+        .calc-rate-badge {
+            background: rgba(255, 215, 0, 0.15);
+            color: var(--gold-main);
+            border: 1px solid rgba(255, 215, 0, 0.35);
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 900;
+        }
+        .calc-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .calc-input {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border-glow);
+            background: var(--bg-dark);
+            color: var(--gold-main);
+            font-size: 16px;
+            font-weight: 900;
+            text-align: center;
+            outline: none;
+            letter-spacing: 1px;
+            direction: ltr;
+        }
+        .light-theme .calc-input {
+            background: #ffffff;
+            color: #0f172a;
+        }
+        .calc-input:focus {
+            border-color: var(--gold-main);
+            box-shadow: 0 0 10px var(--gold-glow);
+        }
+        .calc-input.input-error {
+            border-color: #ff4d4d !important;
+            box-shadow: 0 0 10px rgba(255, 77, 77, 0.35) !important;
+            color: #ff6b6b !important;
+        }
+        /* الملاحظة بالخط الأحمر الناعم */
+        .soft-red-note {
+            font-size: 11.5px;
+            color: #ff7675;
+            margin-top: 7px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            line-height: 1.4;
+        }
+        .light-theme .soft-red-note {
+            color: #d63031;
+        }
+        .calc-price-result {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            font-weight: 700;
+        }
+        .light-theme .calc-price-result {
+            border-top-color: #cbd5e1;
+        }
+        .price-val {
+            font-size: 18px;
+            font-weight: 900;
+            color: #2ecc71;
+            direction: ltr;
+        }
+
+        .buy-btn { 
+            background: rgba(37, 211, 102, 0.08); color: #2ecc71; border: 1px solid #2ecc71; padding: 10px 15px; 
+            border-radius: 8px; font-weight: 900; font-size: 14px; width: 100%; cursor: pointer; 
+            margin-top: auto; display: flex; justify-content: center; align-items: center; gap: 8px; z-index: 5; position: relative;
+        }
+        .item-card:hover .buy-btn { background: var(--whatsapp-color); color: #fff; box-shadow: 0 0 15px rgba(37, 211, 102, 0.4); }
+
+        /* --- النافذة المنبثقة لتسجيل اسم العميل (VIP Modal) --- */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(6px); z-index: 2000; justify-content: center; align-items: center; padding: 20px;
+        }
+        .modal-overlay.show { display: flex; animation: fadeIn 0.25s ease-out; }
+        .vip-modal {
+            background: var(--bg-sidebar); border: 2px solid var(--gold-main); border-radius: 20px;
+            padding: 30px 25px; width: 100%; max-width: 400px; text-align: center; position: relative;
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.2);
+        }
+        .close-modal {
+            position: absolute; top: 15px; left: 15px; background: none; border: none;
+            color: var(--text-sub); font-size: 20px; cursor: pointer;
+        }
+        .close-modal:hover { color: #e74c3c; }
+        .vip-modal-icon {
+            width: 65px; height: 65px; border-radius: 50%; background: rgba(255, 215, 0, 0.1);
+            border: 2px solid var(--gold-main); display: flex; justify-content: center; align-items: center;
+            font-size: 28px; color: var(--gold-main); margin: 0 auto 15px auto; box-shadow: 0 0 15px var(--gold-glow);
+        }
+        .vip-modal h3 { color: var(--white-glow); font-size: 20px; font-weight: 900; margin-bottom: 8px; }
+        .vip-modal p { color: var(--text-sub); font-size: 13px; margin-bottom: 20px; line-height: 1.6; }
+        .vip-modal input {
+            width: 100%; padding: 12px 15px; border-radius: 10px; border: 1px solid var(--border-glow);
+            background: var(--card-bg); color: var(--text-main); font-size: 15px; font-weight: 700;
+            text-align: center; outline: none; margin-bottom: 15px;
+        }
+        .vip-modal input:focus { border-color: var(--gold-main); box-shadow: 0 0 12px var(--gold-glow); }
+        .modal-btns { display: flex; gap: 10px; }
+        .save-name-btn {
+            flex: 1; background: linear-gradient(45deg, #FFD700, #ffa500); color: #000;
+            border: none; padding: 11px; border-radius: 10px; font-weight: 900; font-size: 15px; cursor: pointer;
+        }
+        .save-name-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px var(--gold-glow); }
+        .clear-name-btn {
+            background: rgba(231, 76, 60, 0.15); color: #e74c3c; border: 1px solid #e74c3c;
+            padding: 11px 15px; border-radius: 10px; font-weight: 700; font-size: 13px; cursor: pointer; display: none;
+        }
+        .clear-name-btn:hover { background: #e74c3c; color: #fff; }
+
+        .whatsapp-float { position: fixed; bottom: 25px; left: 25px; width: 58px; height: 58px; background-color: var(--whatsapp-color); color: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 32px; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); z-index: 1000; text-decoration: none; animation: pulse-wa 2s infinite; }
+        .whatsapp-float:hover { background-color: #128c7e; transform: scale(1.1); }
+        @keyframes pulse-wa { 0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); } 70% { box-shadow: 0 0 0 14px rgba(37, 211, 102, 0); } 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); } }
+
+        /* --- تحسينات خاصة لشاشة الموبايل (Responsive Design) --- */
+        @media (max-width: 900px) {
+            header { padding: 10px 12px; min-height: 70px; }
+            .header-left { display: none; }
+            .logo-text { font-size: 20px; } .logo-text span { font-size: 14px; } .logo-crown { font-size: 20px; }
+            .currency-switch { padding: 5px 10px; font-size: 11px; }
+            .user-quick-btn { padding: 5px 10px; font-size: 11px; }
+            .theme-toggle { width: 32px; height: 32px; font-size: 14px; }
+
+            .main-container { flex-direction: column; }
+            
+            aside { width: 100%; border-left: none; border-bottom: 1px solid var(--border-glow); padding: 12px 15px; gap: 12px; }
+            .user-panel { display: none; }
+            .sidebar-menu { flex-direction: row; overflow-x: auto; gap: 8px; padding-bottom: 4px; }
+            .sidebar-menu li { flex-shrink: 0; }
+            .sidebar-menu li a { padding: 8px 12px; font-size: 12px; border-radius: 20px; }
+            .sidebar-menu li a:hover, .sidebar-menu li.active a { border-right: 1px solid var(--gold-main); }
+
+            .content-area { padding: 20px 15px; }
+            .top-bar-controls { flex-direction: column; align-items: stretch; margin-bottom: 25px; }
+            .search-box { width: 100%; }
+            
+            .services-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+            .section-card { padding: 20px 10px; }
+            .card-title { font-size: 14px; }
+            .floating-icons { transform: scale(0.85); margin-bottom: 5px; }
+            
+            .sub-services-grid { grid-template-columns: 1fr; gap: 15px; } 
+            .whatsapp-float { bottom: 20px; left: 20px; width: 50px; height: 50px; font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- الهيدر المتجاوب -->
+    <header>
+        <div class="header-side header-left"></div>
+        
+        <div class="logo-area" onclick="showView('mainView')">
+            <i class="fa-solid fa-crown logo-crown"></i>
+            <h1 class="logo-text">KASAWAT <span>STORE</span></h1>
+        </div>
+        
+        <div class="header-side header-right">
+            <!-- زر التعريف السريع بالعميل -->
+            <button class="user-quick-btn" onclick="openUserModal()" id="headerUserBtn" title="تعريف اسمك للطلبات السريعة">
+                <i class="fa-solid fa-user-check"></i>
+                <span id="headerUserText">تسجيل اسمي</span>
+            </button>
+
+            <div class="currency-switch-container">
+                <div class="currency-switch" onclick="toggleCurrencyDropdown()" id="currencyBtn">
+                    <i class="fa-solid fa-coins"></i>
+                    <span id="activeCurrency">ليرة سوري - ل.س</span>
+                    <i class="fa-solid fa-chevron-down" style="font-size: 10px;"></i>
+                </div>
+                <div class="currency-dropdown" id="currencyDropdown">
+                    <div class="currency-option" onclick="selectCurrency('ليرة سوري - ل.س')"><span>ليرة سوري جديد</span> <span>ل.س</span></div>
+                    <div class="currency-option" onclick="selectCurrency('الدولار الأمريكي - $')"><span>الدولار الأمريكي</span> <span>$</span></div>
+                    <div class="currency-option" onclick="selectCurrency('ريال سعودي - R.S')"><span>ريال سعودي</span> <span>R.S</span></div>
+                    <div class="currency-option" onclick="selectCurrency('ليرة تركي - ₺')"><span>ليرة تركي</span> <span>₺</span></div>
+                    <div class="currency-option" onclick="selectCurrency('جنيه مصري - £')"><span>جنيه مصري</span> <span>£</span></div>
+                </div>
+            </div>
+            <button class="theme-toggle" onclick="toggleTheme()" title="تغيير المظهر">
+                <i class="fa-solid fa-moon" id="themeIcon"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- شريط التسويق المتصل -->
+    <div class="offers-bar">
+        <marquee behavior="scroll" direction="right" scrollamount="7">
+            🔥 أهلاً بك في منصة KASAWAT STORE .. وجهتك الأولى للخدمات الرقمية! 🚀 
+            <span class="contact-highlight">{ للتواصل والاستفسار: المدير تامر - 963980248109+ } 📞</span> 
+            خصومات حصرية وعروض متجددة يومياً! 🎁
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            🔥 أهلاً بك في منصة KASAWAT STORE .. وجهتك الأولى للخدمات الرقمية! 🚀 
+            <span class="contact-highlight">{ للتواصل والاستفسار: المدير تامر - 963980248109+ } 📞</span> 
+            خصومات حصرية وعروض متجددة يومياً! 🎁
+        </marquee>
+    </div>
+
+    <!-- النافذة المنبثقة لتسجيل اسم العميل (VIP Modal) -->
+    <div class="modal-overlay" id="userModal">
+        <div class="vip-modal">
+            <button class="close-modal" onclick="closeUserModal()"><i class="fa-solid fa-xmark"></i></button>
+            <div class="vip-modal-icon"><i class="fa-solid fa-crown"></i></div>
+            <h3>بطاقة عميل VIP</h3>
+            <p>أدخل اسمك الكريم ليتم اعتماده تلقائياً في طلباتك المباشرة عبر الواتساب لخدمتك بشكل أسرع:</p>
+            <input type="text" id="clientNameInput" placeholder="اكتب اسمك هنا (مثال: أحمد)..." maxlength="30">
+            <div class="modal-btns">
+                <button class="save-name-btn" onclick="saveClientName()"><i class="fa-solid fa-check"></i> حفظ الاسم</button>
+                <button class="clear-name-btn" id="clearNameBtn" onclick="clearClientName()"><i class="fa-solid fa-trash"></i> حذف</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- زر الواتساب العائم -->
+    <a href="https://wa.me/963980248109" target="_blank" class="whatsapp-float" title="تواصل عبر واتساب"><i class="fa-brands fa-whatsapp"></i></a>
+
+    <div class="main-container">
+        
+        <!-- القائمة الجانبية -->
+        <aside>
+            <div class="user-panel" onclick="openUserModal()" title="اضغط لتعديل اسمك">
+                <div class="user-avatar"><i class="fa-solid fa-user-astronaut" id="sidebarAvatarIcon"></i></div>
+                <span class="vip-badge" id="sidebarBadge"><i class="fa-solid fa-star"></i> VIP 1</span>
+                <div class="username" id="sidebarUsername">KASAWAT STORE</div>
+                <div class="edit-name-hint" id="sidebarHint"><i class="fa-solid fa-pen-to-square"></i> سجل اسمك كعميل VIP</div>
+            </div>
+            <ul class="sidebar-menu">
+                <li class="active"><a onclick="showView('mainView')"><i class="fa-solid fa-house"></i> الرئيسية</a></li>
+                <li><a onclick="openUserModal()" style="color: var(--gold-main);"><i class="fa-solid fa-id-card"></i> بطاقة عضويتي (الاسم)</a></li>
+                <li><a href="https://wa.me/963980248109" target="_blank" class="wa-link"><i class="fa-brands fa-whatsapp"></i> واتساب للإستفسار</a></li>
+                <li><a href="https://www.facebook.com/share/1DyxngXGpL/" target="_blank" class="fb-link"><i class="fa-brands fa-facebook"></i> فيسبوك</a></li>
+                <li><a href="https://www.instagram.com/k5wat?dlrf=MWFuY2wweWplcHdzOA==" target="_blank" class="ig-link"><i class="fa-brands fa-instagram"></i> انستغرام</a></li>
+            </ul>
+        </aside>
+
+        <!-- منطقة المحتوى -->
+        <div class="content-area">
+            
+            <!-- ================= 1. الواجهة الرئيسية ================= -->
+            <div id="mainView" class="view-section active">
+                <div class="top-bar-controls">
+                    <h2 class="section-title">أقسام المتجر الرئيسية</h2>
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="searchInput" onkeyup="filterSections()" placeholder="ابحث عن قسم أو خدمة...">
+                    </div>
+                </div>
+                
+                <div class="services-grid" id="mainGrid">
+                    
+                    <div class="section-card" onclick="showView('socialPlatformsView')">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="floating-icons">
+                            <i class="fa-brands fa-facebook ic-main" style="color: #1877F2;"></i>
+                            <i class="fa-brands fa-instagram ic-tl" style="color: #E1306C;"></i>
+                            <i class="fa-brands fa-whatsapp ic-tr" style="color: #25D366;"></i>
+                            <i class="fa-brands fa-tiktok ic-bl" style="color: #ff0050;"></i>
+                            <i class="fa-brands fa-telegram ic-br" style="color: #0088cc;"></i>
+                        </div>
+                        <div class="card-title">السوشيال ميديا</div>
+                    </div>
+
+                    <div class="section-card" onclick="showView('pageManagementView')">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="floating-icons">
+                            <i class="fa-solid fa-layer-group ic-main" style="color: #e67e22;"></i>
+                            <i class="fa-solid fa-bullhorn ic-tl" style="color: #f1c40f;"></i>
+                            <i class="fa-solid fa-pen-to-square ic-tr" style="color: #3498db;"></i>
+                            <i class="fa-solid fa-users ic-bl" style="color: #2ecc71;"></i>
+                            <i class="fa-solid fa-chart-line ic-br" style="color: #e74c3c;"></i>
+                        </div>
+                        <div class="card-title">إدارة وإنشاء الصفحات</div>
+                    </div>
+
+                    <div class="section-card" onclick="showView('removePlatformsView')">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="floating-icons">
+                            <i class="fa-solid fa-user-slash ic-main" style="color: #e74c3c;"></i>
+                            <i class="fa-solid fa-shield-halved ic-tl" style="color: #3498db;"></i>
+                            <i class="fa-solid fa-ban ic-tr" style="color: #c0392b;"></i>
+                            <i class="fa-solid fa-lock ic-bl" style="color: #f1c40f;"></i>
+                            <i class="fa-solid fa-triangle-exclamation ic-br" style="color: #e67e22;"></i>
+                        </div>
+                        <div class="card-title">إزالة الحسابات المخالفة</div>
+                    </div>
+                    
+                    <div class="section-card" onclick="showView('paymentServicesView')">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="floating-icons">
+                            <i class="fa-solid fa-money-check-dollar ic-main" style="color: #f39c12;"></i>
+                            <i class="fa-solid fa-mobile-screen-button ic-tl" style="color: #3498db;"></i>
+                            <i class="fa-solid fa-file-invoice-dollar ic-tr" style="color: #2ecc71;"></i>
+                            <i class="fa-solid fa-bolt ic-bl" style="color: #e74c3c;"></i>
+                            <i class="fa-solid fa-building-columns ic-br" style="color: #9b59b6;"></i>
+                        </div>
+                        <div class="card-title">خدمات الدفع والموبايل</div>
+                    </div>
+
+                    <div class="section-card" onclick="showView('gamesView')">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="floating-icons">
+                            <i class="fa-solid fa-gamepad ic-main" style="color: #f39c12;"></i>
+                            <i class="fa-solid fa-fire ic-tl" style="color: #e74c3c;"></i>
+                            <i class="fa-solid fa-crosshairs ic-tr" style="color: #fff;"></i>
+                            <i class="fa-solid fa-dice ic-bl" style="color: #9b59b6;"></i>
+                            <i class="fa-solid fa-chess-knight ic-br" style="color: #3498db;"></i>
+                        </div>
+                        <div class="card-title">شحن الألعاب</div>
+                    </div>
+
+                    <div class="section-card" onclick="showView('withdrawalView')">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="floating-icons">
+                            <i class="fa-solid fa-wallet ic-main" style="color: #3498db;"></i>
+                            <i class="fa-brands fa-bitcoin ic-tl" style="color: #f1c40f;"></i>
+                            <i class="fa-solid fa-money-bill-wave ic-tr" style="color: #2ecc71;"></i>
+                            <i class="fa-solid fa-video ic-bl" style="color: #e74c3c;"></i>
+                            <i class="fa-solid fa-microphone-lines ic-br" style="color: #9b59b6;"></i>
+                        </div>
+                        <div class="card-title">سحب الرواتب ودردشة</div>
+                    </div>
+
+                    <div class="section-card" onclick="showView('aiView')">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="floating-icons">
+                            <i class="fa-solid fa-brain ic-main" style="color: #1abc9c;"></i>
+                            <i class="fa-solid fa-robot ic-tl" style="color: #bdc3c7;"></i>
+                            <i class="fa-brands fa-google ic-tr" style="color: #f1c40f;"></i>
+                            <i class="fa-solid fa-bolt ic-bl" style="color: #e74c3c;"></i>
+                            <i class="fa-solid fa-microchip ic-br" style="color: #3498db;"></i>
+                        </div>
+                        <div class="card-title">الذكاء الاصطناعي</div>
+                    </div>
+
+                    <div class="section-card" onclick="showView('designView')">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="floating-icons">
+                            <i class="fa-solid fa-palette ic-main" style="color: #e84393;"></i>
+                            <i class="fa-solid fa-scissors ic-tl" style="color: #00cec9;"></i>
+                            <i class="fa-solid fa-pen-nib ic-tr" style="color: #fdcb6e;"></i>
+                            <i class="fa-solid fa-clapperboard ic-bl" style="color: #d63031;"></i>
+                            <i class="fa-solid fa-wand-magic-sparkles ic-br" style="color: #6c5ce7;"></i>
+                        </div>
+                        <div class="card-title">برامج المونتاج</div>
+                    </div>
+
+                    <div class="section-card" onclick="showView('vpnView')">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="floating-icons">
+                            <i class="fa-solid fa-shield-halved ic-main" style="color: #0984e3;"></i>
+                            <i class="fa-solid fa-globe ic-tl" style="color: #74b9ff;"></i>
+                            <i class="fa-solid fa-lock ic-tr" style="color: #fdcb6e;"></i>
+                            <i class="fa-solid fa-network-wired ic-bl" style="color: #00b894;"></i>
+                            <i class="fa-solid fa-key ic-br" style="color: #ffeaa7;"></i>
+                        </div>
+                        <div class="card-title">كاسر بروكسي VPN</div>
+                    </div>
+
+                    <div class="section-card" onclick="showView('liveView')">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="floating-icons">
+                            <i class="fa-solid fa-tv ic-main" style="color: #d63031;"></i>
+                            <i class="fa-solid fa-film ic-tl" style="color: #fff;"></i>
+                            <i class="fa-solid fa-play ic-tr" style="color: #f1c40f;"></i>
+                            <i class="fa-solid fa-music ic-bl" style="color: #1abc9c;"></i>
+                            <i class="fa-solid fa-satellite-dish ic-br" style="color: #0984e3;"></i>
+                        </div>
+                        <div class="card-title">اشتراكات شاشات لايف</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= 2. واجهات الطبقة الوسطى للمنصات ================= -->
+
+            <!-- أ. منصات السوشيال ميديا -->
+            <div id="socialPlatformsView" class="view-section">
+                <div class="back-btn" onclick="showView('mainView')"><i class="fa-solid fa-arrow-right"></i> <span>الرجوع للرئيسية</span></div>
+                <div class="sub-header"><i class="fa-solid fa-hashtag"></i><h2>اختر منصة السوشيال ميديا</h2></div>
+                
+                <div class="services-grid">
+                    <div class="section-card" onclick="showView('instagramView')" style="padding: 25px 10px;">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <i class="fa-brands fa-instagram" style="font-size: 55px; color: #E1306C; margin-bottom: 10px; filter: drop-shadow(0 0 10px #E1306C);"></i>
+                        <div class="card-title">خدمات انستغرام</div>
+                    </div>
+                    <div class="section-card" onclick="showView('tiktokView')" style="padding: 25px 10px;">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <i class="fa-brands fa-tiktok" style="font-size: 55px; color: #ff0050; margin-bottom: 10px; filter: drop-shadow(0 0 10px #ff0050);"></i>
+                        <div class="card-title">خدمات تيك توك</div>
+                    </div>
+                    <div class="section-card" onclick="showView('facebookView')" style="padding: 25px 10px;">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <i class="fa-brands fa-facebook-f" style="font-size: 55px; color: #1877F2; margin-bottom: 10px; filter: drop-shadow(0 0 10px #1877F2);"></i>
+                        <div class="card-title">خدمات فيسبوك</div>
+                    </div>
+                    <div class="section-card" onclick="showView('whatsappServicesView')" style="padding: 25px 10px;">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <i class="fa-brands fa-whatsapp" style="font-size: 55px; color: #25D366; margin-bottom: 10px; filter: drop-shadow(0 0 10px #25D366);"></i>
+                        <div class="card-title">خدمات واتساب</div>
+                    </div>
+                    <div class="section-card" onclick="showView('youtubeView')" style="padding: 25px 10px;">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <i class="fa-brands fa-youtube" style="font-size: 55px; color: #FF0000; margin-bottom: 10px; filter: drop-shadow(0 0 10px #FF0000);"></i>
+                        <div class="card-title">خدمات يوتيوب</div>
+                    </div>
+                    <div class="section-card" onclick="showView('snapchatView')" style="padding: 25px 10px;">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <i class="fa-brands fa-snapchat" style="font-size: 55px; color: #FFFC00; margin-bottom: 10px; filter: drop-shadow(0 0 10px #FFFC00);"></i>
+                        <div class="card-title">خدمات سناب شات</div>
+                    </div>
+                    <div class="section-card" onclick="showView('twitterView')" style="padding: 25px 10px;">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div style="font-size: 55px; color: var(--white-glow); margin-bottom: 10px; font-weight: 900; filter: drop-shadow(0 0 10px rgba(255,255,255,0.5)); font-family: Arial, sans-serif;">𝕏</div>
+                        <div class="card-title">خدمات تويتر X</div>
+                    </div>
+                    <div class="section-card" onclick="showView('telegramView')" style="padding: 25px 10px;">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <i class="fa-brands fa-telegram" style="font-size: 55px; color: #0088cc; margin-bottom: 10px; filter: drop-shadow(0 0 10px #0088cc);"></i>
+                        <div class="card-title">خدمات تيليجرام</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ب. منصات إزالة الحسابات -->
+            <div id="removePlatformsView" class="view-section">
+                <div class="back-btn" onclick="showView('mainView')"><i class="fa-solid fa-arrow-right"></i> <span>الرجوع للرئيسية</span></div>
+                <div class="sub-header"><i class="fa-solid fa-user-slash"></i><h2>منصات الإزالة والإغلاق</h2></div>
+                
+                <div class="services-grid">
+                    <div class="section-card" onclick="showView('removeInstaView')" style="padding: 25px 10px;">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <i class="fa-brands fa-instagram" style="font-size: 55px; color: #E1306C; margin-bottom: 10px; filter: drop-shadow(0 0 10px #E1306C);"></i>
+                        <div class="card-title">إزالة حسابات انستغرام</div>
+                    </div>
+                    <div class="section-card" onclick="showView('removeTiktokView')" style="padding: 25px 10px;">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <i class="fa-brands fa-tiktok" style="font-size: 55px; color: #ff0050; margin-bottom: 10px; filter: drop-shadow(0 0 10px #ff0050);"></i>
+                        <div class="card-title">إزالة حسابات تيك توك</div>
+                    </div>
+                    <div class="section-card" onclick="showView('removeFbView')" style="padding: 25px 10px;">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <i class="fa-brands fa-facebook-f" style="font-size: 55px; color: #1877F2; margin-bottom: 10px; filter: drop-shadow(0 0 10px #1877F2);"></i>
+                        <div class="card-title">إزالة حسابات فيسبوك</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= 3. تفاصيل الخدمات للمربعات المنفصلة ================= -->
+            
+            <!-- --- تفاصيل إزالة الحسابات --- -->
+            <div id="removeInstaView" class="view-section">
+                <div class="back-btn" onclick="showView('removePlatformsView')"><i class="fa-solid fa-arrow-right"></i> <span>الرجوع لمنصات الإزالة</span></div>
+                <div class="sub-header"><i class="fa-brands fa-instagram" style="color: #E1306C"></i><h2>إزالة حسابات انستغرام</h2></div>
+                <div class="sub-services-grid">
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #E1306C;"><i class="fa-solid fa-masks-theater"></i></div><div class="item-title">حسابات منتحلة</div></div><div class="item-desc">إغلاق وإزالة الحسابات الوهمية التي تنتحل شخصيتك أو علامتك التجارية.</div><button class="buy-btn" onclick="orderWhatsApp('إزالة حسابات انستغرام منتحلة')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #E1306C;"><i class="fa-solid fa-triangle-exclamation"></i></div><div class="item-title">حسابات مخالفة</div></div><div class="item-desc">إغلاق الحسابات التي تنتهك حقوقك وتخالف شروط مجتمع المنصة.</div><button class="buy-btn" onclick="orderWhatsApp('إزالة حسابات انستغرام مخالفة')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #E1306C;"><i class="fa-solid fa-user-shield"></i></div><div class="item-title">حسابات مخترقة</div></div><div class="item-desc">إغلاق الحسابات التي تم اختراقها والسيطرة عليها لمنع استغلالها.</div><button class="buy-btn" onclick="orderWhatsApp('إزالة حسابات انستغرام مخترقة')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #E1306C;"><i class="fa-solid fa-hourglass-end"></i></div><div class="item-title">حسابات قديمة</div></div><div class="item-desc">إزالة الحسابات القديمة الخاصة بك التي فقدت الوصول إليها نهائياً.</div><button class="buy-btn" onclick="orderWhatsApp('إزالة حسابات انستغرام قديمة')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #E1306C;"><i class="fa-solid fa-user-lock"></i></div><div class="item-title">حسابات مسروقة</div></div><div class="item-desc">إغلاق الحسابات المسروقة وإزالتها من المنصة لضمان أمانك.</div><button class="buy-btn" onclick="orderWhatsApp('إزالة حسابات انستغرام مسروقة')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                </div>
+            </div>
+
+            <div id="removeTiktokView" class="view-section">
+                <div class="back-btn" onclick="showView('removePlatformsView')"><i class="fa-solid fa-arrow-right"></i> <span>الرجوع لمنصات الإزالة</span></div>
+                <div class="sub-header"><i class="fa-brands fa-tiktok" style="color: #ff0050"></i><h2>إزالة حسابات تيك توك</h2></div>
+                <div class="sub-services-grid">
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #ff0050;"><i class="fa-solid fa-masks-theater"></i></div><div class="item-title">حسابات منتحلة</div></div><div class="item-desc">إغلاق وإزالة الحسابات الوهمية التي تنتحل شخصيتك أو علامتك التجارية.</div><button class="buy-btn" onclick="orderWhatsApp('إزالة حسابات تيك توك منتحلة')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #ff0050;"><i class="fa-solid fa-triangle-exclamation"></i></div><div class="item-title">حسابات مخالفة</div></div><div class="item-desc">إغلاق الحسابات التي تنتهك حقوقك وتخالف شروط مجتمع المنصة.</div><button class="buy-btn" onclick="orderWhatsApp('إزالة حسابات تيك توك مخالفة')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #ff0050;"><i class="fa-solid fa-user-shield"></i></div><div class="item-title">حسابات مخترقة</div></div><div class="item-desc">إغلاق الحسابات التي تم اختراقها والسيطرة عليها لمنع استغلالها.</div><button class="buy-btn" onclick="orderWhatsApp('إزالة حسابات تيك توك مخترقة')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #ff0050;"><i class="fa-solid fa-hourglass-end"></i></div><div class="item-title">حسابات قديمة</div></div><div class="item-desc">إزالة الحسابات القديمة الخاصة بك التي فقدت الوصول إليها نهائياً.</div><button class="buy-btn" onclick="orderWhatsApp('إزالة حسابات تيك توك قديمة')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #ff0050;"><i class="fa-solid fa-user-lock"></i></div><div class="item-title">حسابات مسروقة</div></div><div class="item-desc">إغلاق الحسابات المسروقة وإزالتها من المنصة لضمان أمانك.</div><button class="buy-btn" onclick="orderWhatsApp('إزالة حسابات تيك توك مسروقة')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                </div>
+            </div>
+
+            <div id="removeFbView" class="view-section">
+                <div class="back-btn" onclick="showView('removePlatformsView')"><i class="fa-solid fa-arrow-right"></i> <span>الرجوع لمنصات الإزالة</span></div>
+                <div class="sub-header"><i class="fa-brands fa-facebook-f" style="color: #1877F2"></i><h2>إزالة حسابات فيسبوك</h2></div>
+                <div class="sub-services-grid">
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #1877F2;"><i class="fa-solid fa-masks-theater"></i></div><div class="item-title">حسابات منتحلة</div></div><div class="item-desc">إغلاق وإزالة الحسابات الوهمية التي تنتحل شخصيتك أو علامتك التجارية.</div><button class="buy-btn" onclick="orderWhatsApp('إزالة حسابات فيسبوك منتحلة')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #1877F2;"><i class="fa-solid fa-triangle-exclamation"></i></div><div class="item-title">حسابات مخالفة</div></div><div class="item-desc">إغلاق الحسابات التي تنتهك حقوقك وتخالف شروط مجتمع المنصة.</div><button class="buy-btn" onclick="orderWhatsApp('إزالة حسابات فيسبوك مخالفة')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #1877F2;"><i class="fa-solid fa-user-shield"></i></div><div class="item-title">حسابات مخترقة</div></div><div class="item-desc">إغلاق الحسابات التي تم اختراقها والسيطرة عليها لمنع استغلالها.</div><button class="buy-btn" onclick="orderWhatsApp('إزالة حسابات فيسبوك مخترقة')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #1877F2;"><i class="fa-solid fa-hourglass-end"></i></div><div class="item-title">حسابات قديمة</div></div><div class="item-desc">إزالة الحسابات القديمة الخاصة بك التي فقدت الوصول إليها نهائياً.</div><button class="buy-btn" onclick="orderWhatsApp('إزالة حسابات فيسبوك قديمة')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #1877F2;"><i class="fa-solid fa-user-lock"></i></div><div class="item-title">حسابات مسروقة</div></div><div class="item-desc">إغلاق الحسابات المسروقة وإزالتها من المنصة لضمان أمانك.</div><button class="buy-btn" onclick="orderWhatsApp('إزالة حسابات فيسبوك مسروقة')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                </div>
+            </div>
+
+            <!-- ================= تفاصيل السوشيال ميديا مع الحاسبات التفاعلية الشاملة ================= -->
+            
+            <!-- 1. قسم خدمات انستغرام -->
+            <div id="instagramView" class="view-section">
+                <div class="back-btn" onclick="showView('socialPlatformsView')"><i class="fa-solid fa-arrow-right"></i> <span>الرجوع للمنصات</span></div>
+                <div class="sub-header"><i class="fa-brands fa-instagram" style="color: #E1306C"></i><h2>خدمات انستغرام</h2></div>
+                <div class="sub-services-grid">
+                    
+                    <!-- متابعين انستغرام -->
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex">
+                            <div class="item-image" style="color: #E1306C;"><i class="fa-brands fa-instagram"></i></div>
+                            <div class="item-title">زيادة متابعين انستغرام</div>
+                        </div>
+                        <div class="item-desc">زيادة متابعين حقيقيين لرفع موثوقية حسابك وتقويته بشكل آمن.</div>
+                        <div class="calc-box">
+                            <div class="calc-label"><span>حدد الكمية المطلوبة:</span><span class="calc-rate-badge">الـ 1,000 متابع = $5</span></div>
+                            <div class="calc-input-wrapper">
+                                <input type="text" id="igFollowersQty" class="calc-input" value="1,000" inputmode="numeric" oninput="handleUnitCalculation('igFollowersQty', 'igFollowersPrice', 'igFollowersError', 5, 1000, 1000, 50000)">
+                            </div>
+                            <div class="soft-red-note" id="igFollowersError"><i class="fa-solid fa-circle-exclamation"></i><span>الحد المسموح: أقل كمية 1,000 وأقصى كمية 50,000 متابع</span></div>
+                            <div class="calc-price-result"><span>التكلفة الإجمالية:</span><span class="price-val" id="igFollowersPrice">$5.00</span></div>
+                        </div>
+                        <button class="buy-btn" onclick="orderUnitService('زيادة متابعين انستغرام', 'igFollowersQty', 5, 1000, 1000, 50000, 'متابع')"><i class="fa-brands fa-whatsapp"></i> اطلب بالكمية المحددة</button>
+                    </div>
+
+                    <!-- مشاهدات انستغرام -->
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex">
+                            <div class="item-image" style="color: #E1306C;"><i class="fa-solid fa-eye"></i></div>
+                            <div class="item-title">مشاهدات انستغرام (ريلز/فيديو)</div>
+                        </div>
+                        <div class="item-desc">رفع مشاهدات الفيديوهات والريلز (Reels) بسرعة لدعم انتشار الحساب.</div>
+                        <div class="calc-box">
+                            <div class="calc-label"><span>حدد الكمية المطلوبة:</span><span class="calc-rate-badge">الـ 5,000 مشاهدة = $2.05</span></div>
+                            <div class="calc-input-wrapper">
+                                <input type="text" id="igViewsQty" class="calc-input" value="5,000" inputmode="numeric" oninput="handleUnitCalculation('igViewsQty', 'igViewsPrice', 'igViewsError', 2.05, 5000, 5000, 5000000)">
+                            </div>
+                            <div class="soft-red-note" id="igViewsError"><i class="fa-solid fa-circle-exclamation"></i><span>الحد المسموح: أقل كمية 5,000 وأقصى كمية 5,000,000 مشاهدة</span></div>
+                            <div class="calc-price-result"><span>التكلفة الإجمالية:</span><span class="price-val" id="igViewsPrice">$2.05</span></div>
+                        </div>
+                        <button class="buy-btn" onclick="orderUnitService('مشاهدات انستغرام', 'igViewsQty', 2.05, 5000, 5000, 5000000, 'مشاهدة')"><i class="fa-brands fa-whatsapp"></i> اطلب بالكمية المحددة</button>
+                    </div>
+
+                    <!-- لايكات انستغرام -->
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex">
+                            <div class="item-image" style="color: #E1306C;"><i class="fa-solid fa-heart"></i></div>
+                            <div class="item-title">لايكات انستغرام</div>
+                        </div>
+                        <div class="item-desc">زيادة الإعجابات (لايكات) على منشوراتك وصورك وفيديوهاتك في انستغرام.</div>
+                        <div class="calc-box">
+                            <div class="calc-label"><span>حدد الكمية المطلوبة:</span><span class="calc-rate-badge">الـ 500 لايك = $2</span></div>
+                            <div class="calc-input-wrapper">
+                                <input type="text" id="igLikesQty" class="calc-input" value="500" inputmode="numeric" oninput="handleUnitCalculation('igLikesQty', 'igLikesPrice', 'igLikesError', 2, 500, 500, 1000000)">
+                            </div>
+                            <div class="soft-red-note" id="igLikesError"><i class="fa-solid fa-circle-exclamation"></i><span>الحد المسموح: أقل كمية 500 وأقصى كمية 1,000,000 لايك</span></div>
+                            <div class="calc-price-result"><span>التكلفة الإجمالية:</span><span class="price-val" id="igLikesPrice">$2.00</span></div>
+                        </div>
+                        <button class="buy-btn" onclick="orderUnitService('لايكات انستغرام', 'igLikesQty', 2, 500, 500, 1000000, 'لايك')"><i class="fa-brands fa-whatsapp"></i> اطلب بالكمية المحددة</button>
+                    </div>
+
+                    <!-- إعادة نشر حقيقية انستغرام -->
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex">
+                            <div class="item-image" style="color: #E1306C;"><i class="fa-solid fa-retweet"></i></div>
+                            <div class="item-title">إعادة نشر حقيقية (Repost)</div>
+                        </div>
+                        <div class="item-desc">إعادة نشر ومشاركة منشوراتك بشكل حقيقي لرفع الوصول والإكسبلور.</div>
+                        <div class="calc-box">
+                            <div class="calc-label"><span>حدد الكمية المطلوبة:</span><span class="calc-rate-badge">الـ 500 إعادة نشر = $3</span></div>
+                            <div class="calc-input-wrapper">
+                                <input type="text" id="igRepostQty" class="calc-input" value="500" inputmode="numeric" oninput="handleUnitCalculation('igRepostQty', 'igRepostPrice', 'igRepostError', 3, 500, 500, 10000)">
+                            </div>
+                            <div class="soft-red-note" id="igRepostError"><i class="fa-solid fa-circle-exclamation"></i><span>الحد المسموح: أقل كمية 500 وأقصى كمية 10,000 إعادة نشر</span></div>
+                            <div class="calc-price-result"><span>التكلفة الإجمالية:</span><span class="price-val" id="igRepostPrice">$3.00</span></div>
+                        </div>
+                        <button class="buy-btn" onclick="orderUnitService('إعادة نشر حقيقية انستغرام', 'igRepostQty', 3, 500, 500, 10000, 'إعادة نشر')"><i class="fa-brands fa-whatsapp"></i> اطلب بالكمية المحددة</button>
+                    </div>
+
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #E1306C;"><i class="fa-solid fa-user-tie"></i></div><div class="item-title">استلام وإدارة صفحات</div></div><div class="item-desc">إدارة شاملة، نشر محتوى مستمر، والرد على الرسائل.</div><button class="buy-btn" onclick="orderWhatsApp('استلام وإدارة صفحات انستغرام')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #E1306C;"><i class="fa-solid fa-unlock-keyhole"></i></div><div class="item-title">استرجاع وحل مشاكل</div></div><div class="item-desc">استرجاع الحسابات المعطلة والمسروقة وحل التقييد.</div><button class="buy-btn" onclick="orderWhatsApp('استرجاع حسابات وحل مشاكل انستغرام')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                </div>
+            </div>
+
+            <!-- 2. قسم خدمات تيك توك -->
+            <div id="tiktokView" class="view-section">
+                <div class="back-btn" onclick="showView('socialPlatformsView')"><i class="fa-solid fa-arrow-right"></i> <span>الرجوع للمنصات</span></div>
+                <div class="sub-header"><i class="fa-brands fa-tiktok" style="color: #ff0050"></i><h2>خدمات تيك توك</h2></div>
+                <div class="sub-services-grid">
+                    
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex">
+                            <div class="item-image" style="color: #ff0050;"><i class="fa-brands fa-tiktok"></i></div>
+                            <div class="item-title">رفع متابعين تيك توك</div>
+                        </div>
+                        <div class="item-desc">تزويد حسابك بمتابعين لفتح ميزة البث المباشر وزيادة التفاعل.</div>
+                        <div class="calc-box">
+                            <div class="calc-label"><span>حدد الكمية المطلوبة:</span><span class="calc-rate-badge">الـ 1,000 متابع = $6</span></div>
+                            <div class="calc-input-wrapper">
+                                <input type="text" id="ttFollowersQty" class="calc-input" value="1,000" inputmode="numeric" oninput="handleUnitCalculation('ttFollowersQty', 'ttFollowersPrice', 'ttFollowersError', 6, 1000, 1000, 50000)">
+                            </div>
+                            <div class="soft-red-note" id="ttFollowersError"><i class="fa-solid fa-circle-exclamation"></i><span>الحد المسموح: أقل كمية 1,000 وأقصى كمية 50,000 متابع</span></div>
+                            <div class="calc-price-result"><span>التكلفة الإجمالية:</span><span class="price-val" id="ttFollowersPrice">$6.00</span></div>
+                        </div>
+                        <button class="buy-btn" onclick="orderUnitService('رفع متابعين تيك توك', 'ttFollowersQty', 6, 1000, 1000, 50000, 'متابع')"><i class="fa-brands fa-whatsapp"></i> اطلب بالكمية المحددة</button>
+                    </div>
+
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #ff0050;"><i class="fa-solid fa-rocket"></i></div><div class="item-title">حملات ترويجية ومشاهدات</div></div><div class="item-desc">رفع مشاهدات الفيديوهات ودفعها للإكسبلور مع زيادة التفاعل.</div><button class="buy-btn" onclick="orderWhatsApp('حملات ترويجية تيك توك')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #ff0050;"><i class="fa-solid fa-shield-halved"></i></div><div class="item-title">حماية واسترجاع حسابات</div></div><div class="item-desc">حماية الحساب من الباند، واسترجاع الحسابات المحظورة.</div><button class="buy-btn" onclick="orderWhatsApp('حماية واسترجاع حسابات تيك توك')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #ff0050;"><i class="fa-solid fa-list-check"></i></div><div class="item-title">تحسين وإدارة الحساب</div></div><div class="item-desc">إدارة حسابات التيك توك وتقديم دعم للبث المباشر.</div><button class="buy-btn" onclick="orderWhatsApp('إدارة حسابات تيك توك')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                </div>
+            </div>
+
+            <!-- 3. قسم خدمات فيسبوك (المتابعين + التفاعلات الخمسة بالـ Emoji) -->
+            <div id="facebookView" class="view-section">
+                <div class="back-btn" onclick="showView('socialPlatformsView')"><i class="fa-solid fa-arrow-right"></i> <span>الرجوع للمنصات</span></div>
+                <div class="sub-header"><i class="fa-brands fa-facebook-f" style="color: #1877F2"></i><h2>خدمات فيسبوك</h2></div>
+                
+                <div class="category-group-title"><i class="fa-solid fa-users"></i> المتابعين وإدارة الحسابات</div>
+                <div class="sub-services-grid">
+                    <!-- متابعين فيسبوك -->
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex">
+                            <div class="item-image" style="color: #1877F2;"><i class="fa-brands fa-facebook-f"></i></div>
+                            <div class="item-title">دعم متابعين وتقوية حساب</div>
+                        </div>
+                        <div class="item-desc">زيادة متابعين الصفحات الشخصية والتجارية لتوسيع عملك بسرعة وأمان.</div>
+                        <div class="calc-box">
+                            <div class="calc-label"><span>حدد الكمية المطلوبة:</span><span class="calc-rate-badge">الـ 1,000 متابع = $4</span></div>
+                            <div class="calc-input-wrapper">
+                                <input type="text" id="fbFollowersQty" class="calc-input" value="1,000" inputmode="numeric" oninput="handleUnitCalculation('fbFollowersQty', 'fbFollowersPrice', 'fbFollowersError', 4, 1000, 1000, 50000)">
+                            </div>
+                            <div class="soft-red-note" id="fbFollowersError"><i class="fa-solid fa-circle-exclamation"></i><span>الحد المسموح: أقل كمية 1,000 وأقصى كمية 50,000 متابع</span></div>
+                            <div class="calc-price-result"><span>التكلفة الإجمالية:</span><span class="price-val" id="fbFollowersPrice">$4.00</span></div>
+                        </div>
+                        <button class="buy-btn" onclick="orderUnitService('دعم متابعين فيسبوك', 'fbFollowersQty', 4, 1000, 1000, 50000, 'متابع')"><i class="fa-brands fa-whatsapp"></i> اطلب بالكمية المحددة</button>
+                    </div>
+
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #1877F2;"><i class="fa-solid fa-triangle-exclamation"></i></div><div class="item-title">استرجاع وحل مشاكل</div></div><div class="item-desc">حل التقييد، الإعلانات المرفوضة، واسترجاع الصفحات المعطلة.</div><button class="buy-btn" onclick="orderWhatsApp('استرجاع وحل مشاكل فيسبوك')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                </div>
+
+                <!-- تفاعلات فيسبوك المفصلة بالايموجي (الـ 500 = $1.50 | من 500 إلى 10,000) -->
+                <div class="category-group-title"><i class="fa-solid fa-face-smile"></i> تفاعلات منشورات فيسبوك (لكل تفاعل خدمة مستقلة)</div>
+                <div class="sub-services-grid">
+                    
+                    <!-- تفاعل لايك 👍 -->
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex">
+                            <div class="item-image" style="font-size: 28px;">👍</div>
+                            <div class="item-title">تفاعل لايك (إعجاب 👍)</div>
+                        </div>
+                        <div class="item-desc">زيادة تفاعل (لايك 👍) على منشوراتك وصورك في فيسبوك.</div>
+                        <div class="calc-box">
+                            <div class="calc-label"><span>حدد الكمية المطلوبة:</span><span class="calc-rate-badge">الـ 500 تفاعل = $1.50</span></div>
+                            <div class="calc-input-wrapper">
+                                <input type="text" id="fbLikeReactQty" class="calc-input" value="500" inputmode="numeric" oninput="handleUnitCalculation('fbLikeReactQty', 'fbLikeReactPrice', 'fbLikeReactErr', 1.5, 500, 500, 10000)">
+                            </div>
+                            <div class="soft-red-note" id="fbLikeReactErr"><i class="fa-solid fa-circle-exclamation"></i><span>الحد المسموح: من 500 إلى 10,000 تفاعل</span></div>
+                            <div class="calc-price-result"><span>التكلفة الإجمالية:</span><span class="price-val" id="fbLikeReactPrice">$1.50</span></div>
+                        </div>
+                        <button class="buy-btn" onclick="orderUnitService('تفاعل فيسبوك (لايك 👍)', 'fbLikeReactQty', 1.5, 500, 500, 10000, 'تفاعل 👍')"><i class="fa-brands fa-whatsapp"></i> اطلب بالكمية المحددة</button>
+                    </div>
+
+                    <!-- تفاعل أحببته ❤️ -->
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex">
+                            <div class="item-image" style="font-size: 28px;">❤️</div>
+                            <div class="item-title">تفاعل أحببته (Love ❤️)</div>
+                        </div>
+                        <div class="item-desc">زيادة تفاعل (أحببته ❤️) لمنح منشوراتك طابعاً إيجابياً قوياً.</div>
+                        <div class="calc-box">
+                            <div class="calc-label"><span>حدد الكمية المطلوبة:</span><span class="calc-rate-badge">الـ 500 تفاعل = $1.50</span></div>
+                            <div class="calc-input-wrapper">
+                                <input type="text" id="fbLoveReactQty" class="calc-input" value="500" inputmode="numeric" oninput="handleUnitCalculation('fbLoveReactQty', 'fbLoveReactPrice', 'fbLoveReactErr', 1.5, 500, 500, 10000)">
+                            </div>
+                            <div class="soft-red-note" id="fbLoveReactErr"><i class="fa-solid fa-circle-exclamation"></i><span>الحد المسموح: من 500 إلى 10,000 تفاعل</span></div>
+                            <div class="calc-price-result"><span>التكلفة الإجمالية:</span><span class="price-val" id="fbLoveReactPrice">$1.50</span></div>
+                        </div>
+                        <button class="buy-btn" onclick="orderUnitService('تفاعل فيسبوك (أحببته ❤️)', 'fbLoveReactQty', 1.5, 500, 500, 10000, 'تفاعل ❤️')"><i class="fa-brands fa-whatsapp"></i> اطلب بالكمية المحددة</button>
+                    </div>
+
+                    <!-- تفاعل واو 😮 -->
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex">
+                            <div class="item-image" style="font-size: 28px;">😮</div>
+                            <div class="item-title">تفاعل واو (أدهشني 😮)</div>
+                        </div>
+                        <div class="item-desc">زيادة تفاعل (واو 😮) على منشوراتك وعروضك المميزة في فيسبوك.</div>
+                        <div class="calc-box">
+                            <div class="calc-label"><span>حدد الكمية المطلوبة:</span><span class="calc-rate-badge">الـ 500 تفاعل = $1.50</span></div>
+                            <div class="calc-input-wrapper">
+                                <input type="text" id="fbWowReactQty" class="calc-input" value="500" inputmode="numeric" oninput="handleUnitCalculation('fbWowReactQty', 'fbWowReactPrice', 'fbWowReactErr', 1.5, 500, 500, 10000)">
+                            </div>
+                            <div class="soft-red-note" id="fbWowReactErr"><i class="fa-solid fa-circle-exclamation"></i><span>الحد المسموح: من 500 إلى 10,000 تفاعل</span></div>
+                            <div class="calc-price-result"><span>التكلفة الإجمالية:</span><span class="price-val" id="fbWowReactPrice">$1.50</span></div>
+                        </div>
+                        <button class="buy-btn" onclick="orderUnitService('تفاعل فيسبوك (واو 😮)', 'fbWowReactQty', 1.5, 500, 500, 10000, 'تفاعل 😮')"><i class="fa-brands fa-whatsapp"></i> اطلب بالكمية المحددة</button>
+                    </div>
+
+                    <!-- تفاعل أحزنني 😢 -->
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex">
+                            <div class="item-image" style="font-size: 28px;">😢</div>
+                            <div class="item-title">تفاعل أحزنني (Sad 😢)</div>
+                        </div>
+                        <div class="item-desc">زيادة تفاعل (أحزنني 😢) على المنشورات المحددة حسب طلبك.</div>
+                        <div class="calc-box">
+                            <div class="calc-label"><span>حدد الكمية المطلوبة:</span><span class="calc-rate-badge">الـ 500 تفاعل = $1.50</span></div>
+                            <div class="calc-input-wrapper">
+                                <input type="text" id="fbSadReactQty" class="calc-input" value="500" inputmode="numeric" oninput="handleUnitCalculation('fbSadReactQty', 'fbSadReactPrice', 'fbSadReactErr', 1.5, 500, 500, 10000)">
+                            </div>
+                            <div class="soft-red-note" id="fbSadReactErr"><i class="fa-solid fa-circle-exclamation"></i><span>الحد المسموح: من 500 إلى 10,000 تفاعل</span></div>
+                            <div class="calc-price-result"><span>التكلفة الإجمالية:</span><span class="price-val" id="fbSadReactPrice">$1.50</span></div>
+                        </div>
+                        <button class="buy-btn" onclick="orderUnitService('تفاعل فيسبوك (أحزنني 😢)', 'fbSadReactQty', 1.5, 500, 500, 10000, 'تفاعل 😢')"><i class="fa-brands fa-whatsapp"></i> اطلب بالكمية المحددة</button>
+                    </div>
+
+                    <!-- تفاعل أغضبني 😡 -->
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex">
+                            <div class="item-image" style="font-size: 28px;">😡</div>
+                            <div class="item-title">تفاعل أغضبني (Angry 😡)</div>
+                        </div>
+                        <div class="item-desc">زيادة تفاعل (أغضبني 😡) على المنشورات المطلوبة بسرعة.</div>
+                        <div class="calc-box">
+                            <div class="calc-label"><span>حدد الكمية المطلوبة:</span><span class="calc-rate-badge">الـ 500 تفاعل = $1.50</span></div>
+                            <div class="calc-input-wrapper">
+                                <input type="text" id="fbAngryReactQty" class="calc-input" value="500" inputmode="numeric" oninput="handleUnitCalculation('fbAngryReactQty', 'fbAngryReactPrice', 'fbAngryReactErr', 1.5, 500, 500, 10000)">
+                            </div>
+                            <div class="soft-red-note" id="fbAngryReactErr"><i class="fa-solid fa-circle-exclamation"></i><span>الحد المسموح: من 500 إلى 10,000 تفاعل</span></div>
+                            <div class="calc-price-result"><span>التكلفة الإجمالية:</span><span class="price-val" id="fbAngryReactPrice">$1.50</span></div>
+                        </div>
+                        <button class="buy-btn" onclick="orderUnitService('تفاعل فيسبوك (أغضبني 😡)', 'fbAngryReactQty', 1.5, 500, 500, 10000, 'تفاعل 😡')"><i class="fa-brands fa-whatsapp"></i> اطلب بالكمية المحددة</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- 4. قسم خدمات واتساب الجديد (مشتركين القنوات + 6 تفاعلات بالايموجي) -->
+            <div id="whatsappServicesView" class="view-section">
+                <div class="back-btn" onclick="showView('socialPlatformsView')"><i class="fa-solid fa-arrow-right"></i> <span>الرجوع للمنصات</span></div>
+                <div class="sub-header"><i class="fa-brands fa-whatsapp" style="color: #25D366"></i><h2>خدمات قنوات واتساب</h2></div>
+                
+                <div class="category-group-title"><i class="fa-solid fa-users"></i> مشتركين قنوات واتساب</div>
+                <div class="sub-services-grid">
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex">
+                            <div class="item-image" style="color: #25D366;"><i class="fa-brands fa-whatsapp"></i></div>
+                            <div class="item-title">مشتركين قناة واتساب</div>
+                        </div>
+                        <div class="item-desc">زيادة مشتركين قناتك على الواتساب لتقوية القناة ورفع ثقة المتابعين.</div>
+                        <div class="calc-box">
+                            <div class="calc-label"><span>حدد الكمية المطلوبة:</span><span class="calc-rate-badge">الـ 1,000 مشترك = $6</span></div>
+                            <div class="calc-input-wrapper">
+                                <input type="text" id="waSubsQty" class="calc-input" value="500" inputmode="numeric" oninput="handleUnitCalculation('waSubsQty', 'waSubsPrice', 'waSubsErr', 6, 1000, 500, 50000)">
+                            </div>
+                            <div class="soft-red-note" id="waSubsErr"><i class="fa-solid fa-circle-exclamation"></i><span>الحد المسموح: أقل كمية 500 وأقصى كمية 50,000 مشترك</span></div>
+                            <div class="calc-price-result"><span>التكلفة الإجمالية:</span><span class="price-val" id="waSubsPrice">$3.00</span></div>
+                        </div>
+                        <button class="buy-btn" onclick="orderUnitService('مشتركين قناة واتساب', 'waSubsQty', 6, 1000, 500, 50000, 'مشترك')"><i class="fa-brands fa-whatsapp"></i> اطلب بالكمية المحددة</button>
+                    </div>
+                </div>
+
+                <!-- تفاعلات منشورات قناة واتساب الستة (الـ 1,000 = $2) -->
+                <div class="category-group-title"><i class="fa-solid fa-Clap"></i> تفاعلات منشورات قناة واتساب (الـ 1,000 تفاعل = $2)</div>
+                <div class="sub-services-grid">
+                    
+                    <!-- واتساب: لايك 👍 -->
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex"><div class="item-image" style="font-size: 28px;">👍</div><div class="item-title">تفاعل قناة واتساب (لايك 👍)</div></div>
+                        <div class="item-desc">إضافة تفاعل إيموجي (لايك 👍) على منشورات قناتك في واتساب.</div>
+                        <div class="calc-box">
+                            <div class="calc-label"><span>حدد الكمية:</span><span class="calc-rate-badge">الـ 1,000 تفاعل = $2</span></div>
+                            <div class="calc-input-wrapper"><input type="text" id="waReactLikeQty" class="calc-input" value="1,000" inputmode="numeric" oninput="handleUnitCalculation('waReactLikeQty', 'waReactLikePrice', 'waReactLikeErr', 2, 1000, 500, 50000)"></div>
+                            <div class="soft-red-note" id="waReactLikeErr"><i class="fa-solid fa-circle-exclamation"></i><span>الحد المسموح: من 500 إلى 50,000 تفاعل</span></div>
+                            <div class="calc-price-result"><span>التكلفة الإجمالية:</span><span class="price-val" id="waReactLikePrice">$2.00</span></div>
+                        </div>
+                        <button class="buy-btn" onclick="orderUnitService('تفاعل منشورات قناة واتساب (لايك 👍)', 'waReactLikeQty', 2, 1000, 500, 50000, 'تفاعل 👍')"><i class="fa-brands fa-whatsapp"></i> اطلب بالكمية المحددة</button>
+                    </div>
+
+                    <!-- واتساب: أضحكني 😂 -->
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex"><div class="item-image" style="font-size: 28px;">😂</div><div class="item-title">تفاعل قناة واتساب (أضحكني 😂)</div></div>
+                        <div class="item-desc">إضافة تفاعل إيموجي (أضحكني 😂) على منشورات قناتك في واتساب.</div>
+                        <div class="calc-box">
+                            <div class="calc-label"><span>حدد الكمية:</span><span class="calc-rate-badge">الـ 1,000 تفاعل = $2</span></div>
+                            <div class="calc-input-wrapper"><input type="text" id="waReactLaughQty" class="calc-input" value="1,000" inputmode="numeric" oninput="handleUnitCalculation('waReactLaughQty', 'waReactLaughPrice', 'waReactLaughErr', 2, 1000, 500, 50000)"></div>
+                            <div class="soft-red-note" id="waReactLaughErr"><i class="fa-solid fa-circle-exclamation"></i><span>الحد المسموح: من 500 إلى 50,000 تفاعل</span></div>
+                            <div class="calc-price-result"><span>التكلفة الإجمالية:</span><span class="price-val" id="waReactLaughPrice">$2.00</span></div>
+                        </div>
+                        <button class="buy-btn" onclick="orderUnitService('تفاعل منشورات قناة واتساب (أضحكني 😂)', 'waReactLaughQty', 2, 1000, 500, 50000, 'تفاعل 😂')"><i class="fa-brands fa-whatsapp"></i> اطلب بالكمية المحددة</button>
+                    </div>
+
+                    <!-- واتساب: أحببته ❤️ -->
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex"><div class="item-image" style="font-size: 28px;">❤️</div><div class="item-title">تفاعل قناة واتساب (أحببته ❤️)</div></div>
+                        <div class="item-desc">إضافة تفاعل إيموجي (أحببته ❤️) على منشورات قناتك في واتساب.</div>
+                        <div class="calc-box">
+                            <div class="calc-label"><span>حدد الكمية:</span><span class="calc-rate-badge">الـ 1,000 تفاعل = $2</span></div>
+                            <div class="calc-input-wrapper"><input type="text" id="waReactLoveQty" class="calc-input" value="1,000" inputmode="numeric" oninput="handleUnitCalculation('waReactLoveQty', 'waReactLovePrice', 'waReactLoveErr', 2, 1000, 500, 50000)"></div>
+                            <div class="soft-red-note" id="waReactLoveErr"><i class="fa-solid fa-circle-exclamation"></i><span>الحد المسموح: من 500 إلى 50,000 تفاعل</span></div>
+                            <div class="calc-price-result"><span>التكلفة الإجمالية:</span><span class="price-val" id="waReactLovePrice">$2.00</span></div>
+                        </div>
+                        <button class="buy-btn" onclick="orderUnitService('تفاعل منشورات قناة واتساب (أحببته ❤️)', 'waReactLoveQty', 2, 1000, 500, 50000, 'تفاعل ❤️')"><i class="fa-brands fa-whatsapp"></i> اطلب بالكمية المحددة</button>
+                    </div>
+
+                    <!-- واتساب: واو 😮 -->
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex"><div class="item-image" style="font-size: 28px;">😮</div><div class="item-title">تفاعل قناة واتساب (واو 😮)</div></div>
+                        <div class="item-desc">إضافة تفاعل إيموجي (واو 😮) على منشورات قناتك في واتساب.</div>
+                        <div class="calc-box">
+                            <div class="calc-label"><span>حدد الكمية:</span><span class="calc-rate-badge">الـ 1,000 تفاعل = $2</span></div>
+                            <div class="calc-input-wrapper"><input type="text" id="waReactWowQty" class="calc-input" value="1,000" inputmode="numeric" oninput="handleUnitCalculation('waReactWowQty', 'waReactWowPrice', 'waReactWowErr', 2, 1000, 500, 50000)"></div>
+                            <div class="soft-red-note" id="waReactWowErr"><i class="fa-solid fa-circle-exclamation"></i><span>الحد المسموح: من 500 إلى 50,000 تفاعل</span></div>
+                            <div class="calc-price-result"><span>التكلفة الإجمالية:</span><span class="price-val" id="waReactWowPrice">$2.00</span></div>
+                        </div>
+                        <button class="buy-btn" onclick="orderUnitService('تفاعل منشورات قناة واتساب (واو 😮)', 'waReactWowQty', 2, 1000, 500, 50000, 'تفاعل 😮')"><i class="fa-brands fa-whatsapp"></i> اطلب بالكمية المحددة</button>
+                    </div>
+
+                    <!-- واتساب: يبكي 😢 -->
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex"><div class="item-image" style="font-size: 28px;">😢</div><div class="item-title">تفاعل قناة واتساب (يبكي 😢)</div></div>
+                        <div class="item-desc">إضافة تفاعل إيموجي (يبكي 😢) على منشورات قناتك في واتساب.</div>
+                        <div class="calc-box">
+                            <div class="calc-label"><span>حدد الكمية:</span><span class="calc-rate-badge">الـ 1,000 تفاعل = $2</span></div>
+                            <div class="calc-input-wrapper"><input type="text" id="waReactCryQty" class="calc-input" value="1,000" inputmode="numeric" oninput="handleUnitCalculation('waReactCryQty', 'waReactCryPrice', 'waReactCryErr', 2, 1000, 500, 50000)"></div>
+                            <div class="soft-red-note" id="waReactCryErr"><i class="fa-solid fa-circle-exclamation"></i><span>الحد المسموح: من 500 إلى 50,000 تفاعل</span></div>
+                            <div class="calc-price-result"><span>التكلفة الإجمالية:</span><span class="price-val" id="waReactCryPrice">$2.00</span></div>
+                        </div>
+                        <button class="buy-btn" onclick="orderUnitService('تفاعل منشورات قناة واتساب (يبكي 😢)', 'waReactCryQty', 2, 1000, 500, 50000, 'تفاعل 😢')"><i class="fa-brands fa-whatsapp"></i> اطلب بالكمية المحددة</button>
+                    </div>
+
+                    <!-- واتساب: آمين 🙏 -->
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex"><div class="item-image" style="font-size: 28px;">🙏</div><div class="item-title">تفاعل قناة واتساب (آمين 🙏)</div></div>
+                        <div class="item-desc">إضافة تفاعل إيموجي (آمين / شكراً 🙏) على منشورات قناتك في واتساب.</div>
+                        <div class="calc-box">
+                            <div class="calc-label"><span>حدد الكمية:</span><span class="calc-rate-badge">الـ 1,000 تفاعل = $2</span></div>
+                            <div class="calc-input-wrapper"><input type="text" id="waReactPrayQty" class="calc-input" value="1,000" inputmode="numeric" oninput="handleUnitCalculation('waReactPrayQty', 'waReactPrayPrice', 'waReactPrayErr', 2, 1000, 500, 50000)"></div>
+                            <div class="soft-red-note" id="waReactPrayErr"><i class="fa-solid fa-circle-exclamation"></i><span>الحد المسموح: من 500 إلى 50,000 تفاعل</span></div>
+                            <div class="calc-price-result"><span>التكلفة الإجمالية:</span><span class="price-val" id="waReactPrayPrice">$2.00</span></div>
+                        </div>
+                        <button class="buy-btn" onclick="orderUnitService('تفاعل منشورات قناة واتساب (آمين 🙏)', 'waReactPrayQty', 2, 1000, 500, 50000, 'تفاعل 🙏')"><i class="fa-brands fa-whatsapp"></i> اطلب بالكمية المحددة</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- 5. قسم خدمات يوتيوب -->
+            <div id="youtubeView" class="view-section">
+                <div class="back-btn" onclick="showView('socialPlatformsView')"><i class="fa-solid fa-arrow-right"></i> <span>الرجوع للمنصات</span></div>
+                <div class="sub-header"><i class="fa-brands fa-youtube" style="color: #FF0000"></i><h2>خدمات يوتيوب</h2></div>
+                <div class="sub-services-grid">
+                    
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex">
+                            <div class="item-image" style="color: #FF0000;"><i class="fa-brands fa-youtube"></i></div>
+                            <div class="item-title">زيادة مشتركين يوتيوب</div>
+                        </div>
+                        <div class="item-desc">رفع عدد المشتركين في قناتك بطرق آمنة لتقوية القناة وتفعيل الدخل.</div>
+                        <div class="calc-box">
+                            <div class="calc-label"><span>حدد الكمية المطلوبة:</span><span class="calc-rate-badge">الـ 1,000 مشترك = $9</span></div>
+                            <div class="calc-input-wrapper">
+                                <input type="text" id="ytSubsQty" class="calc-input" value="1,000" inputmode="numeric" oninput="handleUnitCalculation('ytSubsQty', 'ytSubsPrice', 'ytSubsError', 9, 1000, 1000, 50000)">
+                            </div>
+                            <div class="soft-red-note" id="ytSubsError"><i class="fa-solid fa-circle-exclamation"></i><span>الحد المسموح: أقل كمية 1,000 وأقصى كمية 50,000 مشترك</span></div>
+                            <div class="calc-price-result"><span>التكلفة الإجمالية:</span><span class="price-val" id="ytSubsPrice">$9.00</span></div>
+                        </div>
+                        <button class="buy-btn" onclick="orderUnitService('زيادة مشتركين يوتيوب', 'ytSubsQty', 9, 1000, 1000, 50000, 'مشترك')"><i class="fa-brands fa-whatsapp"></i> اطلب بالكمية المحددة</button>
+                    </div>
+
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #FF0000;"><i class="fa-solid fa-magnifying-glass-chart"></i></div><div class="item-title">تحسين محركات البحث SEO</div></div><div class="item-desc">تصدر نتائج البحث من خلال ضبط الكلمات المفتاحية.</div><button class="buy-btn" onclick="orderWhatsApp('تحسين محركات البحث يوتيوب')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #FF0000;"><i class="fa-solid fa-sack-dollar"></i></div><div class="item-title">تحقيق شروط الربح</div></div><div class="item-desc">استكمال شروط الدخل (4000 ساعة و 1000 مشترك).</div><button class="buy-btn" onclick="orderWhatsApp('تحقيق شروط الربح يوتيوب')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #FF0000;"><i class="fa-solid fa-bullhorn"></i></div><div class="item-title">ترويج ودعم قنوات</div></div><div class="item-desc">حملات إعلانية ودعم قنوات للوصول لجمهور أوسع.</div><button class="buy-btn" onclick="orderWhatsApp('ترويج ودعم قنوات يوتيوب')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                </div>
+            </div>
+
+            <!-- 6. قسم خدمات سناب شات (متابعين حقيقيين من 100 إلى 5,000 | الـ 100 = $12) -->
+            <div id="snapchatView" class="view-section">
+                <div class="back-btn" onclick="showView('socialPlatformsView')"><i class="fa-solid fa-arrow-right"></i> <span>الرجوع للمنصات</span></div>
+                <div class="sub-header"><i class="fa-brands fa-snapchat" style="color: #FFFC00"></i><h2>خدمات سناب شات</h2></div>
+                <div class="sub-services-grid">
+                    
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex">
+                            <div class="item-image" style="color: #FFFC00;"><i class="fa-brands fa-snapchat"></i></div>
+                            <div class="item-title">متابعين حقيقيين سناب شات</div>
+                        </div>
+                        <div class="item-desc">زيادة متابعين حقيقيين لحسابك في سناب شات لرفع التفاعل والموثوقية.</div>
+                        <div class="calc-box">
+                            <div class="calc-label"><span>حدد الكمية المطلوبة:</span><span class="calc-rate-badge">الـ 100 متابع = $12</span></div>
+                            <div class="calc-input-wrapper">
+                                <input type="text" id="snapFollowersQty" class="calc-input" value="100" inputmode="numeric" oninput="handleUnitCalculation('snapFollowersQty', 'snapFollowersPrice', 'snapFollowersErr', 12, 100, 100, 5000)">
+                            </div>
+                            <div class="soft-red-note" id="snapFollowersErr"><i class="fa-solid fa-circle-exclamation"></i><span>الحد المسموح: أقل كمية 100 وأقصى كمية 5,000 متابع</span></div>
+                            <div class="calc-price-result"><span>التكلفة الإجمالية:</span><span class="price-val" id="snapFollowersPrice">$12.00</span></div>
+                        </div>
+                        <button class="buy-btn" onclick="orderUnitService('متابعين حقيقيين سناب شات', 'snapFollowersQty', 12, 100, 100, 5000, 'متابع حقيقي')"><i class="fa-brands fa-whatsapp"></i> اطلب بالكمية المحددة</button>
+                    </div>
+
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #FFFC00;"><i class="fa-solid fa-eye"></i></div><div class="item-title">زيادة مشاهدات الستوري</div></div><div class="item-desc">رفع عدد مشاهدات القصة (ستوري) لزيادة قوة الحساب.</div><button class="buy-btn" onclick="orderWhatsApp('زيادة مشاهدات سناب شات')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                </div>
+            </div>
+
+            <!-- 7. قسم خدمات تويتر X -->
+            <div id="twitterView" class="view-section">
+                <div class="back-btn" onclick="showView('socialPlatformsView')"><i class="fa-solid fa-arrow-right"></i> <span>الرجوع للمنصات</span></div>
+                <div class="sub-header"><div style="font-size: 26px; color: var(--white-glow); font-weight: 900; font-family: Arial, sans-serif;">𝕏</div><h2>خدمات تويتر X</h2></div>
+                <div class="sub-services-grid">
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: var(--white-glow);"><div style="font-weight: bold; font-family: Arial, sans-serif;">𝕏</div></div><div class="item-title">زيادة متابعين وتفاعل</div></div><div class="item-desc">رفع المتابعين، اللايكات، والريتويت للمنشورات.</div><button class="buy-btn" onclick="orderWhatsApp('زيادة متابعين وتفاعل تويتر')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: var(--white-glow);"><i class="fa-solid fa-arrow-trend-up"></i></div><div class="item-title">ترند ورفع هاشتاق</div></div><div class="item-desc">إيصال الهاشتاق الخاص بك إلى قائمة الترند النشطة.</div><button class="buy-btn" onclick="orderWhatsApp('ترند ورفع هاشتاق تويتر')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                </div>
+            </div>
+
+            <!-- 8. قسم خدمات تيليجرام (متابعين القناة + باقات التوثيق المميز) -->
+            <div id="telegramView" class="view-section">
+                <div class="back-btn" onclick="showView('socialPlatformsView')"><i class="fa-solid fa-arrow-right"></i> <span>الرجوع للمنصات</span></div>
+                <div class="sub-header"><i class="fa-brands fa-telegram" style="color: #0088cc"></i><h2>خدمات تيليجرام</h2></div>
+                
+                <div class="category-group-title"><i class="fa-solid fa-users"></i> خدمات القنوات والمجموعات</div>
+                <div class="sub-services-grid">
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex">
+                            <div class="item-image" style="color: #0088cc;"><i class="fa-brands fa-telegram"></i></div>
+                            <div class="item-title">متابعين قناة تيليجرام</div>
+                        </div>
+                        <div class="item-desc">زيادة متابعين وأعضاء قناتك على تيليجرام بسرعة وأمان.</div>
+                        <div class="calc-box">
+                            <div class="calc-label"><span>حدد الكمية المطلوبة:</span><span class="calc-rate-badge">الـ 1,000 متابع = $3</span></div>
+                            <div class="calc-input-wrapper">
+                                <input type="text" id="tgFollowersQty" class="calc-input" value="1,000" inputmode="numeric" oninput="handleUnitCalculation('tgFollowersQty', 'tgFollowersPrice', 'tgFollowersErr', 3, 1000, 500, 5000)">
+                            </div>
+                            <div class="soft-red-note" id="tgFollowersErr"><i class="fa-solid fa-circle-exclamation"></i><span>الحد المسموح: أقل كمية 500 وأقصى كمية 5,000 متابع</span></div>
+                            <div class="calc-price-result"><span>التكلفة الإجمالية:</span><span class="price-val" id="tgFollowersPrice">$3.00</span></div>
+                        </div>
+                        <button class="buy-btn" onclick="orderUnitService('متابعين قناة تيليجرام', 'tgFollowersQty', 3, 1000, 500, 5000, 'متابع')"><i class="fa-brands fa-whatsapp"></i> اطلب بالكمية المحددة</button>
+                    </div>
+
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #0088cc;"><i class="fa-solid fa-eye"></i></div><div class="item-title">مشاهدات وتفاعل</div></div><div class="item-desc">زيادة المشاهدات على المنشورات لرفع موثوقية القناة.</div><button class="buy-btn" onclick="orderWhatsApp('زيادة مشاهدات تيليجرام')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                </div>
+
+                <!-- باقات توثيق تيليجرام المميز -->
+                <div class="category-group-title"><i class="fa-solid fa-star" style="color: var(--gold-main);"></i> توثيق حساب تيليجرام مميز (Telegram Premium)</div>
+                <div class="sub-services-grid">
+                    
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex"><div class="item-image" style="color: #0088cc;"><i class="fa-solid fa-certificate"></i></div><div class="item-title">توثيق تيليجرام مميز (3 شهور)</div></div>
+                        <div class="item-desc">تفعيل اشتراك تيليجرام بريميوم وتوثيق الحساب بالشارة المميزة لمدة 3 أشهر.</div>
+                        <div class="fixed-price-box"><span class="fixed-price-label">سعر الباقة:</span><span class="fixed-price-val">$19.00</span></div>
+                        <button class="buy-btn" onclick="orderFixedPriceService('توثيق حساب تيليجرام مميز - مدة 3 شهور', '19.00')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن ($19)</button>
+                    </div>
+
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex"><div class="item-image" style="color: #0088cc;"><i class="fa-solid fa-certificate"></i></div><div class="item-title">توثيق تيليجرام مميز (6 شهور)</div></div>
+                        <div class="item-desc">تفعيل اشتراك تيليجرام بريميوم وتوثيق الحساب بالشارة المميزة لمدة 6 أشهر.</div>
+                        <div class="fixed-price-box"><span class="fixed-price-label">سعر الباقة:</span><span class="fixed-price-val">$25.00</span></div>
+                        <button class="buy-btn" onclick="orderFixedPriceService('توثيق حساب تيليجرام مميز - مدة 6 شهور', '25.00')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن ($25)</button>
+                    </div>
+
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex"><div class="item-image" style="color: var(--gold-main);"><i class="fa-solid fa-crown"></i></div><div class="item-title">توثيق تيليجرام مميز (12 شهر)</div></div>
+                        <div class="item-desc">تفعيل اشتراك تيليجرام بريميوم السنوي وتوثيق الحساب لمدة 12 شهراً كاملة.</div>
+                        <div class="fixed-price-box"><span class="fixed-price-label">سعر الباقة:</span><span class="fixed-price-val">$44.00</span></div>
+                        <button class="buy-btn" onclick="orderFixedPriceService('توثيق حساب تيليجرام مميز - مدة 12 شهر', '44.00')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن ($44)</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ================= قسم شحن الألعاب + صفحة فري فاير المفصلة ================= -->
+            <div id="gamesView" class="view-section">
+                <div class="back-btn" onclick="showView('mainView')"><i class="fa-solid fa-arrow-right"></i> <span>الرجوع للرئيسية</span></div>
+                <div class="sub-header"><i class="fa-solid fa-gamepad"></i><h2>قسم شحن الألعاب</h2></div>
+                <div class="sub-services-grid">
+                    
+                    <!-- بطاقة فري فاير تفتح صفحة باقات فري فاير الكاملة -->
+                    <div class="item-card" onclick="showView('freeFirePackagesView')" style="cursor: pointer; border-color: rgba(231, 76, 60, 0.5);">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex"><div class="item-image" style="color: #e74c3c;"><i class="fa-solid fa-fire"></i></div><div class="item-title">فري فاير (Free Fire)</div></div>
+                        <div class="item-desc">شحن جواهر، عضويات أسبوعية وشهرية، Booyah Pass، وباقات Level Up الفورية.</div>
+                        <button class="buy-btn" style="background: rgba(231, 76, 60, 0.15); color: #ff6b6b; border-color: #e74c3c;"><i class="fa-solid fa-gem"></i> استعراض باقات فري فاير (14 باقة)</button>
+                    </div>
+
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #f39c12;"><i class="fa-solid fa-parachute-box"></i></div><div class="item-title">شحن ببجي موبايل (PUBG)</div></div><div class="item-desc">شحن شدات UC فورية وتفعيل اشتراكات برايم آمنة ومضمونة.</div><button class="buy-btn" onclick="orderWhatsApp('شحن ببجي موبايل')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #9b59b6;"><i class="fa-solid fa-dice"></i></div><div class="item-title">شحن جواكر (Jawaker)</div></div><div class="item-desc">شحن توكنز جواكر، تفعيل اشتراك باشا، وهدايا سريعة.</div><button class="buy-btn" onclick="orderWhatsApp('شحن جواكر')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #3498db;"><i class="fa-solid fa-chess-knight"></i></div><div class="item-title">شحن كلاش رويال / كلانس</div></div><div class="item-desc">شحن جواهر وتفعيل التذاكر الذهبية للقرية لتطوير مستوى اللعبة.</div><button class="buy-btn" onclick="orderWhatsApp('شحن كلاش')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                </div>
+            </div>
+
+            <!-- صفحة باقات فري فاير المفصلة (كل باقة في مربع مستقل مع الأسعار المعدلة) -->
+            <div id="freeFirePackagesView" class="view-section">
+                <div class="back-btn" onclick="showView('gamesView')"><i class="fa-solid fa-arrow-right"></i> <span>الرجوع لقسم الألعاب</span></div>
+                <div class="sub-header"><i class="fa-solid fa-fire" style="color: #e74c3c;"></i><h2>باقات شحن فري فاير (Free Fire)</h2></div>
+
+                <!-- 1. جواهر فري فاير (مضاف إليها +$0.40) -->
+                <div class="category-group-title"><i class="fa-regular fa-gem" style="color: #00f0ff;"></i> باقات جواهر فري فاير (شحن فوري)</div>
+                <div class="sub-services-grid">
+                    
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex"><div class="item-image" style="color: #00f0ff;"><i class="fa-regular fa-gem"></i></div><div class="item-title">Diamonds 100 + 10</div></div>
+                        <div class="item-desc">شحن 100 جوهرة + 10 جواهر بونص مجاني لحسابك في Free Fire.</div>
+                        <div class="fixed-price-box"><span class="fixed-price-label">السعر:</span><span class="fixed-price-val">$1.322</span></div>
+                        <button class="buy-btn" onclick="orderFixedPriceService('فري فاير - Diamonds 100 + 10', '1.322')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                    </div>
+
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex"><div class="item-image" style="color: #00f0ff;"><i class="fa-regular fa-gem"></i></div><div class="item-title">Diamonds 210 + 21</div></div>
+                        <div class="item-desc">شحن 210 جوهرة + 21 جوهرة بونص مجاني لحسابك في Free Fire.</div>
+                        <div class="fixed-price-box"><span class="fixed-price-label">السعر:</span><span class="fixed-price-val">$2.244</span></div>
+                        <button class="buy-btn" onclick="orderFixedPriceService('فري فاير - Diamonds 210 + 21', '2.244')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                    </div>
+
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex"><div class="item-image" style="color: #00f0ff;"><i class="fa-regular fa-gem"></i></div><div class="item-title">Diamonds 530 + 53</div></div>
+                        <div class="item-desc">شحن 530 جوهرة + 53 جوهرة بونص مجاني لحسابك في Free Fire.</div>
+                        <div class="fixed-price-box"><span class="fixed-price-label">السعر:</span><span class="fixed-price-val">$5.018</span></div>
+                        <button class="buy-btn" onclick="orderFixedPriceService('فري فاير - Diamonds 530 + 53', '5.018')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                    </div>
+
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex"><div class="item-image" style="color: #00f0ff;"><i class="fa-regular fa-gem"></i></div><div class="item-title">Diamonds 1080 + 108</div></div>
+                        <div class="item-desc">شحن 1080 جوهرة + 108 جوهرة بونص مجاني لحسابك في Free Fire.</div>
+                        <div class="fixed-price-box"><span class="fixed-price-label">السعر:</span><span class="fixed-price-val">$9.636</span></div>
+                        <button class="buy-btn" onclick="orderFixedPriceService('فري فاير - Diamonds 1080 + 108', '9.636')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                    </div>
+
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex"><div class="item-image" style="color: var(--gold-main);"><i class="fa-solid fa-gem"></i></div><div class="item-title">Diamonds 2200 + 220</div></div>
+                        <div class="item-desc">الباقة الضخمة: شحن 2200 جوهرة + 220 جوهرة بونص مجاني في Free Fire.</div>
+                        <div class="fixed-price-box"><span class="fixed-price-label">السعر:</span><span class="fixed-price-val">$18.836</span></div>
+                        <button class="buy-btn" onclick="orderFixedPriceService('فري فاير - Diamonds 2200 + 220', '18.836')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                    </div>
+
+                </div>
+
+                <!-- 2. العضويات وبويا باس -->
+                <div class="category-group-title"><i class="fa-solid fa-id-badge" style="color: var(--gold-main);"></i> العضويات و Booyah Pass</div>
+                <div class="sub-services-grid">
+                    
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex"><div class="item-image" style="color: #f39c12;"><i class="fa-solid fa-calendar-week"></i></div><div class="item-title">عضوية أسبوعية أوتوماتيك +</div></div>
+                        <div class="item-desc">تفعيل العضوية الأسبوعية أوتوماتيكياً لحسابك في فري فاير.</div>
+                        <div class="fixed-price-box"><span class="fixed-price-label">السعر:</span><span class="fixed-price-val">$3.189</span></div>
+                        <button class="buy-btn" onclick="orderFixedPriceService('فري فاير - عضوية أسبوعية أوتوماتيك +', '3.189')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                    </div>
+
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex"><div class="item-image" style="color: var(--gold-main);"><i class="fa-solid fa-calendar-check"></i></div><div class="item-title">عضوية شهرية أوتوماتيك +</div></div>
+                        <div class="item-desc">تفعيل العضوية الشهرية الكاملة أوتوماتيكياً لحسابك في فري فاير.</div>
+                        <div class="fixed-price-box"><span class="fixed-price-label">السعر:</span><span class="fixed-price-val">$12.352</span></div>
+                        <button class="buy-btn" onclick="orderFixedPriceService('فري فاير - عضوية شهرية أوتوماتيك +', '12.352')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                    </div>
+
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex"><div class="item-image" style="color: #e74c3c;"><i class="fa-solid fa-ticket"></i></div><div class="item-title">Booyah Pass</div></div>
+                        <div class="item-desc">تفعيل بطاقة Booyah Pass الرسمية للحصول على أحدث السكنات والمكافآت.</div>
+                        <div class="fixed-price-box"><span class="fixed-price-label">السعر:</span><span class="fixed-price-val">$3.003</span></div>
+                        <button class="buy-btn" onclick="orderFixedPriceService('فري فاير - Booyah Pass', '3.003')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                    </div>
+
+                </div>
+
+                <!-- 3. باقات Level Up -->
+                <div class="category-group-title"><i class="fa-solid fa-angles-up" style="color: #2ecc71;"></i> باقات Level Up Package</div>
+                <div class="sub-services-grid">
+                    
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex"><div class="item-image" style="color: #2ecc71;"><i class="fa-solid fa-angles-up"></i></div><div class="item-title">Level Up Package - Level 6</div></div>
+                        <div class="item-desc">باقة ترقية المستوى (Level 6) في لعبة فري فاير.</div>
+                        <div class="fixed-price-box"><span class="fixed-price-label">السعر:</span><span class="fixed-price-val">$0.304</span></div>
+                        <button class="buy-btn" onclick="orderFixedPriceService('فري فاير - Level Up Package (Level 6)', '0.304')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                    </div>
+
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex"><div class="item-image" style="color: #2ecc71;"><i class="fa-solid fa-angles-up"></i></div><div class="item-title">Level Up Package - Level 10</div></div>
+                        <div class="item-desc">باقة ترقية المستوى (Level 10) في لعبة فري فاير.</div>
+                        <div class="fixed-price-box"><span class="fixed-price-label">السعر:</span><span class="fixed-price-val">$0.512</span></div>
+                        <button class="buy-btn" onclick="orderFixedPriceService('فري فاير - Level Up Package (Level 10)', '0.512')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                    </div>
+
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex"><div class="item-image" style="color: #2ecc71;"><i class="fa-solid fa-angles-up"></i></div><div class="item-title">Level Up Package - Level 15</div></div>
+                        <div class="item-desc">باقة ترقية المستوى (Level 15) في لعبة فري فاير.</div>
+                        <div class="fixed-price-box"><span class="fixed-price-label">السعر:</span><span class="fixed-price-val">$0.512</span></div>
+                        <button class="buy-btn" onclick="orderFixedPriceService('فري فاير - Level Up Package (Level 15)', '0.512')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                    </div>
+
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex"><div class="item-image" style="color: #2ecc71;"><i class="fa-solid fa-angles-up"></i></div><div class="item-title">Level Up Package - Level 20</div></div>
+                        <div class="item-desc">باقة ترقية المستوى (Level 20) في لعبة فري فاير.</div>
+                        <div class="fixed-price-box"><span class="fixed-price-label">السعر:</span><span class="fixed-price-val">$0.512</span></div>
+                        <button class="buy-btn" onclick="orderFixedPriceService('فري فاير - Level Up Package (Level 20)', '0.512')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                    </div>
+
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex"><div class="item-image" style="color: #2ecc71;"><i class="fa-solid fa-angles-up"></i></div><div class="item-title">Level Up Package - Level 25</div></div>
+                        <div class="item-desc">باقة ترقية المستوى (Level 25) في لعبة فري فاير.</div>
+                        <div class="fixed-price-box"><span class="fixed-price-label">السعر:</span><span class="fixed-price-val">$0.512</span></div>
+                        <button class="buy-btn" onclick="orderFixedPriceService('فري فاير - Level Up Package (Level 25)', '0.512')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                    </div>
+
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex"><div class="item-image" style="color: var(--gold-main);"><i class="fa-solid fa-angles-up"></i></div><div class="item-title">Level Up Package - Level 30</div></div>
+                        <div class="item-desc">باقة ترقية المستوى الأعلى (Level 30) في لعبة فري فاير.</div>
+                        <div class="fixed-price-box"><span class="fixed-price-label">السعر:</span><span class="fixed-price-val">$0.824</span></div>
+                        <button class="buy-btn" onclick="orderFixedPriceService('فري فاير - Level Up Package (Level 30)', '0.824')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ================= قسم كاسر بروكسي VPN (بنظام الطبقات، كل اشتراك بمربع مستقل) ================= -->
+            <div id="vpnView" class="view-section">
+                <div class="back-btn" onclick="showView('mainView')"><i class="fa-solid fa-arrow-right"></i> <span>الرجوع للرئيسية</span></div>
+                <div class="sub-header"><i class="fa-solid fa-shield-halved"></i><h2>اختر شركة الـ VPN</h2></div>
+                <div class="services-grid">
+                    
+                    <div class="section-card" onclick="showView('protonVpnView')" style="padding: 25px 10px;">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <i class="fa-solid fa-atom" style="font-size: 55px; color: #6c5ce7; margin-bottom: 10px; filter: drop-shadow(0 0 10px #6c5ce7);"></i>
+                        <div class="card-title">Proton VPN</div>
+                    </div>
+
+                    <div class="section-card" onclick="showView('nordVpnView')" style="padding: 25px 10px;">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <i class="fa-solid fa-network-wired" style="font-size: 55px; color: #3498db; margin-bottom: 10px; filter: drop-shadow(0 0 10px #3498db);"></i>
+                        <div class="card-title">Nord VPN {GLOBAL}</div>
+                    </div>
+
+                    <div class="section-card" onclick="showView('expressVpnView')" style="padding: 25px 10px;">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <i class="fa-solid fa-lock" style="font-size: 55px; color: #e74c3c; margin-bottom: 10px; filter: drop-shadow(0 0 10px #e74c3c);"></i>
+                        <div class="card-title">Express VPN</div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- 1. باقات Proton VPN -->
+            <div id="protonVpnView" class="view-section">
+                <div class="back-btn" onclick="showView('vpnView')"><i class="fa-solid fa-arrow-right"></i> <span>الرجوع لشركات الـ VPN</span></div>
+                <div class="sub-header"><i class="fa-solid fa-atom" style="color: #6c5ce7;"></i><h2>اشتراكات Proton VPN</h2></div>
+                <div class="sub-services-grid">
+                    
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex"><div class="item-image" style="color: #6c5ce7;"><i class="fa-solid fa-shield-halved"></i></div><div class="item-title">اشتراك Proton VPN (شهر واحد)</div></div>
+                        <div class="item-desc">تفعيل اشتراك Proton VPN عالي السرعة والأمان لمدة شهر واحد.</div>
+                        <div class="fixed-price-box"><span class="fixed-price-label">سعر الاشتراك:</span><span class="fixed-price-val">$6.00</span></div>
+                        <button class="buy-btn" onclick="orderFixedPriceService('اشتراك Proton VPN - مدة شهر واحد', '6.00')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن ($6)</button>
+                    </div>
+
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex"><div class="item-image" style="color: #6c5ce7;"><i class="fa-solid fa-shield-halved"></i></div><div class="item-title">اشتراك Proton VPN (3 شهور)</div></div>
+                        <div class="item-desc">تفعيل اشتراك Proton VPN عالي السرعة والأمان لمدة 3 أشهر كاملة.</div>
+                        <div class="fixed-price-box"><span class="fixed-price-label">سعر الاشتراك:</span><span class="fixed-price-val">$12.00</span></div>
+                        <button class="buy-btn" onclick="orderFixedPriceService('اشتراك Proton VPN - مدة 3 شهور', '12.00')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن ($12)</button>
+                    </div>
+
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex"><div class="item-image" style="color: #6c5ce7;"><i class="fa-solid fa-shield-halved"></i></div><div class="item-title">اشتراك Proton VPN (6 شهور)</div></div>
+                        <div class="item-desc">تفعيل اشتراك Proton VPN عالي السرعة والأمان لمدة 6 أشهر كاملة.</div>
+                        <div class="fixed-price-box"><span class="fixed-price-label">سعر الاشتراك:</span><span class="fixed-price-val">$20.00</span></div>
+                        <button class="buy-btn" onclick="orderFixedPriceService('اشتراك Proton VPN - مدة 6 شهور', '20.00')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن ($20)</button>
+                    </div>
+
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex"><div class="item-image" style="color: var(--gold-main);"><i class="fa-solid fa-crown"></i></div><div class="item-title">اشتراك Proton VPN (12 شهر)</div></div>
+                        <div class="item-desc">الباقة السنوية: تفعيل اشتراك Proton VPN لمدة 12 شهراً كاملة مع الضمان.</div>
+                        <div class="fixed-price-box"><span class="fixed-price-label">سعر الاشتراك:</span><span class="fixed-price-val">$40.00</span></div>
+                        <button class="buy-btn" onclick="orderFixedPriceService('اشتراك Proton VPN - مدة 12 شهر', '40.00')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن ($40)</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- 2. باقات Nord VPN {GLOBAL} -->
+            <div id="nordVpnView" class="view-section">
+                <div class="back-btn" onclick="showView('vpnView')"><i class="fa-solid fa-arrow-right"></i> <span>الرجوع لشركات الـ VPN</span></div>
+                <div class="sub-header"><i class="fa-solid fa-network-wired" style="color: #3498db;"></i><h2>اشتراكات Nord VPN {GLOBAL}</h2></div>
+                <div class="sub-services-grid">
+                    
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex"><div class="item-image" style="color: #3498db;"><i class="fa-solid fa-globe"></i></div><div class="item-title">Nord VPN {GLOBAL} - شهر واحد</div></div>
+                        <div class="item-desc">اشتراك Nord VPN النسخة العالمية (Global) لمدة شهر واحد بأقصى سرعة وأمان.</div>
+                        <div class="fixed-price-box"><span class="fixed-price-label">سعر الاشتراك:</span><span class="fixed-price-val">$4.00</span></div>
+                        <button class="buy-btn" onclick="orderFixedPriceService('اشتراك Nord VPN {GLOBAL} - شهر واحد', '4.00')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن ($4)</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- 3. باقات Express VPN -->
+            <div id="expressVpnView" class="view-section">
+                <div class="back-btn" onclick="showView('vpnView')"><i class="fa-solid fa-arrow-right"></i> <span>الرجوع لشركات الـ VPN</span></div>
+                <div class="sub-header"><i class="fa-solid fa-lock" style="color: #e74c3c;"></i><h2>اشتراكات Express VPN</h2></div>
+                <div class="sub-services-grid">
+                    
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex"><div class="item-image" style="color: #e74c3c;"><i class="fa-solid fa-mobile-screen"></i></div><div class="item-title">Express VPN - شهر كود واحد للهاتف</div></div>
+                        <div class="item-desc">تفعيل Express VPN لمدة شهر واحد (كود واحد مخصص للهاتف المحمول).</div>
+                        <div class="fixed-price-box"><span class="fixed-price-label">سعر الاشتراك:</span><span class="fixed-price-val">$5.00</span></div>
+                        <button class="buy-btn" onclick="orderFixedPriceService('Express VPN - شهر كود واحد للهاتف', '5.00')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن ($5)</button>
+                    </div>
+
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex"><div class="item-image" style="color: #e74c3c;"><i class="fa-solid fa-laptop"></i></div><div class="item-title">Express VPN - شهر كود واحد للكمبيوتر</div></div>
+                        <div class="item-desc">تفعيل Express VPN لمدة شهر واحد (كود واحد مخصص لجهاز الكمبيوتر / اللابتوب).</div>
+                        <div class="fixed-price-box"><span class="fixed-price-label">سعر الاشتراك:</span><span class="fixed-price-val">$15.00</span></div>
+                        <button class="buy-btn" onclick="orderFixedPriceService('Express VPN - شهر كود واحد للكمبيوتر', '15.00')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن ($15)</button>
+                    </div>
+
+                    <div class="item-card">
+                        <div class="card-watermark">KASAWAT STORE</div>
+                        <div class="card-header-flex"><div class="item-image" style="color: var(--gold-main);"><i class="fa-solid fa-user-lock"></i></div><div class="item-title">Express VPN - حساب مدة شهر للهاتف</div></div>
+                        <div class="item-desc">حساب Express VPN كامل مخصص للهاتف لمدة شهر واحد مع ضمان التفعيل.</div>
+                        <div class="fixed-price-box"><span class="fixed-price-label">سعر الاشتراك:</span><span class="fixed-price-val">$25.00</span></div>
+                        <button class="buy-btn" onclick="orderFixedPriceService('Express VPN - حساب مدة شهر للهاتف', '25.00')"><i class="fa-brands fa-whatsapp"></i> اطلب الآن ($25)</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- --- بقية الأقسام الرئيسية الأخرى بالمربعات المفصلة --- -->
+
+            <div id="pageManagementView" class="view-section">
+                <div class="back-btn" onclick="showView('mainView')"><i class="fa-solid fa-arrow-right"></i> <span>الرجوع للرئيسية</span></div>
+                <div class="sub-header"><i class="fa-solid fa-layer-group"></i><h2>إدارة وإنشاء الصفحات</h2></div>
+                <div class="sub-services-grid">
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #e67e22;"><i class="fa-solid fa-store"></i></div><div class="item-title">إنشاء صفحة تجارية</div></div><div class="item-desc">تأسيس صفحة من الصفر مع شعار وتصميم احترافي لغلاف الصفحة.</div><button class="buy-btn" onclick="orderWhatsApp('إنشاء صفحة تجارية')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #3498db;"><i class="fa-solid fa-list-check"></i></div><div class="item-title">إدارة صفحات السوشيال</div></div><div class="item-desc">إدارة احترافية مع نشر مستمر للمنشورات والمنتجات لزيادة المبيعات.</div><button class="buy-btn" onclick="orderWhatsApp('إدارة صفحات السوشيال ميديا')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #2ecc71;"><i class="fa-solid fa-bullhorn"></i></div><div class="item-title">إعلانات وتواصل مع الزبائن</div></div><div class="item-desc">تصميم إعلانات جذابة والتواصل الدائم والرد على رسائل الزبائن.</div><button class="buy-btn" onclick="orderWhatsApp('إعلانات وتواصل مع الزبائن')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                </div>
+            </div>
+
+            <div id="paymentServicesView" class="view-section">
+                <div class="back-btn" onclick="showView('mainView')"><i class="fa-solid fa-arrow-right"></i> <span>الرجوع للرئيسية</span></div>
+                <div class="sub-header"><i class="fa-solid fa-money-check-dollar"></i><h2>خدمات الدفع والموبايل (زين)</h2></div>
+                <div class="sub-services-grid">
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #f39c12;"><i class="fa-solid fa-mobile-screen-button"></i></div><div class="item-title">تعبئة رصيد موبايل</div></div><div class="item-desc">تعبئة رصيد فوري لـ Syriatel و MTN (مسبق ولاحق الدفع).</div><button class="buy-btn" onclick="orderWhatsApp('تعبئة رصيد موبايل')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #2ecc71;"><i class="fa-solid fa-money-bill-transfer"></i></div><div class="item-title">خدمات الكاش (Cash)</div></div><div class="item-desc">إرسال وتحويل آمن وسريع عبر Syriatel Cash و MTN Cash.</div><button class="buy-btn" onclick="orderWhatsApp('خدمات الكاش سيريتل و mtn')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #e74c3c;"><i class="fa-solid fa-file-invoice"></i></div><div class="item-title">تسديد فواتير حكومية</div></div><div class="item-desc">دفع فواتير (هاتف، كهرباء، مياه، انترنت ADSL) بسهولة.</div><button class="buy-btn" onclick="orderWhatsApp('تسديد فواتير حكومية')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #9b59b6;"><i class="fa-solid fa-graduation-cap"></i></div><div class="item-title">رسوم تعليمية</div></div><div class="item-desc">دفع وتخليص رسوم الجامعات، الثانوية، والتعليم العالي.</div><button class="buy-btn" onclick="orderWhatsApp('تسديد رسوم تعليمية')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #3498db;"><i class="fa-solid fa-building-columns"></i></div><div class="item-title">منصات رسمية</div></div><div class="item-desc">التعامل مع منصة دقيق، اتصالات، إدارة الحج والعمرة، وغيرها.</div><button class="buy-btn" onclick="orderWhatsApp('خدمات المنصات الرسمية')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                </div>
+            </div>
+
+            <div id="withdrawalView" class="view-section">
+                <div class="back-btn" onclick="showView('mainView')"><i class="fa-solid fa-arrow-right"></i> <span>الرجوع للرئيسية</span></div>
+                <div class="sub-header"><i class="fa-solid fa-money-bill-wave"></i><h2>سحب الرواتب و الدردشة</h2></div>
+                <div class="sub-services-grid">
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #2ecc71;"><i class="fa-brands fa-bitcoin"></i></div><div class="item-title">تحويل أرصدة USDT</div></div><div class="item-desc">شراء وبيع وتحويل أرصدة الكريبتو (TRC20) بعمولات منافسة وسرعة.</div><button class="buy-btn" onclick="orderWhatsApp('خدمة USDT')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #3498db;"><i class="fa-solid fa-wallet"></i></div><div class="item-title">تحويل كاش (شام / سيريتل)</div></div><div class="item-desc">تحويل أرصدة شام كاش وسيريتل كاش بسلاسة وأمان تام.</div><button class="buy-btn" onclick="orderWhatsApp('شام كاش أو سيريتل كاش')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #e74c3c;"><i class="fa-solid fa-video"></i></div><div class="item-title">سحب رواتب تطبيقات البث</div></div><div class="item-desc">سحب رواتب تطبيقات البث المباشر (بيغو لايف، تامي، شباب) المعتمدة.</div><button class="buy-btn" onclick="orderWhatsApp('سحب رواتب تطبيقات البث')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                </div>
+            </div>
+
+            <div id="aiView" class="view-section">
+                <div class="back-btn" onclick="showView('mainView')"><i class="fa-solid fa-arrow-right"></i> <span>الرجوع للرئيسية</span></div>
+                <div class="sub-header"><i class="fa-solid fa-robot"></i><h2>أدوات الذكاء الاصطناعي</h2></div>
+                <div class="sub-services-grid">
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #1abc9c;"><i class="fa-solid fa-brain"></i></div><div class="item-title">اشتراك ChatGPT Plus</div></div><div class="item-desc">اشتراك شات جي بي تي بلس للوصول لجميع الميزات المدفوعة ورسمية.</div><button class="buy-btn" onclick="orderWhatsApp('اشتراك ChatGPT')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #f1c40f;"><i class="fa-brands fa-google"></i></div><div class="item-title">اشتراك Google Gemini</div></div><div class="item-desc">تفعيل اشتراكات Gemini Advanced الحصرية والدعم المميز.</div><button class="buy-btn" onclick="orderWhatsApp('اشتراك Google Gemini')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                </div>
+            </div>
+
+            <div id="designView" class="view-section">
+                <div class="back-btn" onclick="showView('mainView')"><i class="fa-solid fa-arrow-right"></i> <span>الرجوع للرئيسية</span></div>
+                <div class="sub-header"><i class="fa-solid fa-palette"></i><h2>برامج التصميم والمونتاج</h2></div>
+                <div class="sub-services-grid">
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #00cec9;"><i class="fa-solid fa-scissors"></i></div><div class="item-title">تفعيل كاب كات (CapCut)</div></div><div class="item-desc">تفعيل اشتراك كاب كات برو لفتح كل التأثيرات والتصدير بدون علامة مائية.</div><button class="buy-btn" onclick="orderWhatsApp('تفعيل كاب كات')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #00C4CC;"><i class="fa-solid fa-pen-nib"></i></div><div class="item-title">تفعيل كانفا برو (Canva)</div></div><div class="item-desc">استخدام قوالب وتصميمات كانفا المدفوعة باحترافية وبشكل لا محدود.</div><button class="buy-btn" onclick="orderWhatsApp('تفعيل كانفا برو')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                </div>
+            </div>
+
+            <div id="liveView" class="view-section">
+                <div class="back-btn" onclick="showView('mainView')"><i class="fa-solid fa-arrow-right"></i> <span>الرجوع للرئيسية</span></div>
+                <div class="sub-header"><i class="fa-solid fa-tv"></i><h2>اشتراكات شاشات لايف</h2></div>
+                <div class="sub-services-grid">
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #E50914;"><i class="fa-solid fa-film"></i></div><div class="item-title">اشتراك نتفليكس (Netflix)</div></div><div class="item-desc">شاشات نتفليكس بأعلى جودة واشتراكات شهرية وسنوية مضمونة.</div><button class="buy-btn" onclick="orderWhatsApp('اشتراك نتفليكس')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #f1c40f;"><i class="fa-solid fa-play"></i></div><div class="item-title">اشتراك شاهد VIP</div></div><div class="item-desc">تفعيل باقات الأفلام والمسلسلات والرياضة بأعلى دقة.</div><button class="buy-btn" onclick="orderWhatsApp('اشتراك شاهد VIP')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                    <div class="item-card"><div class="card-watermark">KASAWAT STORE</div><div class="card-header-flex"><div class="item-image" style="color: #1DB954;"><i class="fa-brands fa-spotify"></i></div><div class="item-title">اشتراك سبوتيفاي (Spotify)</div></div><div class="item-desc">اشتراكات ميوزيك بريميوم للاستماع بدون إعلانات وتنزيل الأغاني.</div><button class="buy-btn" onclick="orderWhatsApp('اشتراك سبوتيفاي')"><i class="fa-brands fa-whatsapp"></i> اطلب الخدمة</button></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // --- 1. المحرك الرياضي العام لحساب الكميات والأسعار بالفواصل الرقمية ---
+        function formatNumberWithCommas(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        function handleUnitCalculation(inputId, priceId, errorId, ratePerUnit, baseUnit, minQty, maxQty) {
+            const inputEl = document.getElementById(inputId);
+            const priceEl = document.getElementById(priceId);
+            const errorEl = document.getElementById(errorId);
+
+            let rawValue = inputEl.value.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[^\d]/g, '');
+
+            if (!rawValue) {
+                inputEl.value = '';
+                priceEl.innerText = '$0.00';
+                inputEl.classList.add('input-error');
+                return;
+            }
+
+            let numericQty = parseInt(rawValue, 10);
+            inputEl.value = formatNumberWithCommas(numericQty);
+
+            let totalPrice = (numericQty / baseUnit) * ratePerUnit;
+            priceEl.innerText = '$' + totalPrice.toFixed(2);
+
+            if (numericQty < minQty || numericQty > maxQty) {
+                inputEl.classList.add('input-error');
+                errorEl.style.color = '#ff4d4d';
+            } else {
+                inputEl.classList.remove('input-error');
+                errorEl.style.color = '#ff7675';
+            }
+        }
+
+        function orderUnitService(serviceName, inputId, ratePerUnit, baseUnit, minQty, maxQty, unitLabel) {
+            unitLabel = unitLabel || 'متابع';
+            const inputEl = document.getElementById(inputId);
+            let rawValue = inputEl.value.replace(/[^\d]/g, '');
+            let numericQty = parseInt(rawValue || '0', 10);
+
+            if (numericQty < minQty || numericQty > maxQty) {
+                inputEl.classList.add('input-error');
+                inputEl.focus();
+                alert('يرجى إدخال كمية مسموحة بين ' + formatNumberWithCommas(minQty) + ' و ' + formatNumberWithCommas(maxQty) + ' ' + unitLabel + '.');
+                return;
+            }
+
+            const formattedQty = formatNumberWithCommas(numericQty);
+            const totalPrice = ((numericQty / baseUnit) * ratePerUnit).toFixed(2);
+            const phoneNumber = "963980248109";
+            const selectedCurrency = document.getElementById("activeCurrency").innerText;
+            const clientGreeting = savedClientName ? 'مرحباً أستاذ تامر، معك العميل ( ' + savedClientName + ' ) 🌟\n' : 'مرحباً أستاذ تامر،\n';
+
+            const message = encodeURIComponent(
+                clientGreeting + 'أريد طلب خدمة: ( ' + serviceName + ' )\n' +
+                '📊 الكمية المطلوبة: [ ' + formattedQty + ' ' + unitLabel + ' ]\n' +
+                '💵 التكلفة المحسوبة: [ $' + totalPrice + ' ]\n' +
+                '💳 العملة المفضلة للدفع: [ ' + selectedCurrency + ' ]\n' +
+                'من متجر KASAWAT STORE.'
+            );
+
+            window.open('https://wa.me/' + phoneNumber + '?text=' + message, '_blank');
+        }
+
+        function orderFixedPriceService(serviceName, priceUSD) {
+            const phoneNumber = "963980248109";
+            const selectedCurrency = document.getElementById("activeCurrency").innerText;
+            const clientGreeting = savedClientName ? 'مرحباً أستاذ تامر، معك العميل ( ' + savedClientName + ' ) 🌟\n' : 'مرحباً أستاذ تامر،\n';
+
+            const message = encodeURIComponent(
+                clientGreeting + 'أريد طلب باقة: ( ' + serviceName + ' )\n' +
+                '💵 السعر المحدد: [ $' + priceUSD + ' ]\n' +
+                '💳 العملة المفضلة للدفع: [ ' + selectedCurrency + ' ]\n' +
+                'من متجر KASAWAT STORE.'
+            );
+
+            window.open('https://wa.me/' + phoneNumber + '?text=' + message, '_blank');
+        }
+
+        // --- 2. إدارة هوية العميل الذكية (VIP Client Identity) ---
+        let savedClientName = localStorage.getItem('kasawat_vip_client') || '';
+
+        function updateClientUI() {
+            const headerText = document.getElementById('headerUserText');
+            const sidebarUsername = document.getElementById('sidebarUsername');
+            const sidebarHint = document.getElementById('sidebarHint');
+            const sidebarBadge = document.getElementById('sidebarBadge');
+            const clearBtn = document.getElementById('clearNameBtn');
+
+            if (savedClientName) {
+                headerText.innerText = 'أهلاً، ' + savedClientName;
+                sidebarUsername.innerText = 'أهلاً بك، ' + savedClientName;
+                sidebarHint.innerHTML = '<i class="fa-solid fa-pen"></i> تعديل الاسم';
+                sidebarBadge.innerHTML = '<i class="fa-solid fa-crown"></i> VIP CLIENT';
+                clearBtn.style.display = 'inline-block';
+            } else {
+                headerText.innerText = 'تسجيل اسمي';
+                sidebarUsername.innerText = 'KASAWAT STORE';
+                sidebarHint.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> سجل اسمك كعميل VIP';
+                sidebarBadge.innerHTML = '<i class="fa-solid fa-star"></i> VIP 1';
+                clearBtn.style.display = 'none';
+            }
+        }
+
+        function openUserModal() {
+            document.getElementById('clientNameInput').value = savedClientName;
+            document.getElementById('userModal').classList.add('show');
+            setTimeout(function() { document.getElementById('clientNameInput').focus(); }, 100);
+        }
+
+        function closeUserModal() {
+            document.getElementById('userModal').classList.remove('show');
+        }
+
+        function saveClientName() {
+            const nameInput = document.getElementById('clientNameInput').value.trim();
+            if (nameInput) {
+                savedClientName = nameInput;
+                localStorage.setItem('kasawat_vip_client', savedClientName);
+                updateClientUI();
+                closeUserModal();
+            } else {
+                clearClientName();
+            }
+        }
+
+        function clearClientName() {
+            savedClientName = '';
+            localStorage.removeItem('kasawat_vip_client');
+            document.getElementById('clientNameInput').value = '';
+            updateClientUI();
+            closeUserModal();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateClientUI();
+            const nameInp = document.getElementById('clientNameInput');
+            if (nameInp) {
+                nameInp.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') saveClientName();
+                });
+            }
+        });
+
+        // --- 3. إدارة قائمة العملات ---
+        function toggleCurrencyDropdown() {
+            document.getElementById("currencyDropdown").classList.toggle("show");
+        }
+
+        function selectCurrency(currency) {
+            document.getElementById("activeCurrency").innerText = currency;
+            document.getElementById("currencyDropdown").classList.remove("show");
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.closest('.currency-switch-container')) {
+                const drop = document.getElementById("currencyDropdown");
+                if (drop) drop.classList.remove("show");
+            }
+            if (event.target.id === 'userModal') {
+                closeUserModal();
+            }
+        };
+
+        // --- 4. إرسال الطلب العام للواتساب ---
+        function orderWhatsApp(serviceName) {
+            const phoneNumber = "963980248109";
+            const selectedCurrency = document.getElementById("activeCurrency").innerText;
+            const clientGreeting = savedClientName ? 'مرحباً أستاذ تامر، معك العميل ( ' + savedClientName + ' ) 🌟\n' : 'مرحباً أستاذ تامر، ';
+            
+            const message = encodeURIComponent(clientGreeting + 'أريد طلب خدمة: ( ' + serviceName + ' )\nالعملة المفضلة للدفع: [ ' + selectedCurrency + ' ]\nمن متجر KASAWAT STORE.');
+            const whatsappUrl = 'https://wa.me/' + phoneNumber + '?text=' + message;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // --- 5. التنقل السلس بين الواجهات ---
+        function showView(viewId) {
+            document.querySelectorAll('.view-section').forEach(function(el) {
+                el.classList.remove('active');
+            });
+            const target = document.getElementById(viewId);
+            if (target) target.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- 6. البحث الفوري في الأقسام الرئيسية ---
+        function filterSections() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('#mainGrid .section-card');
+            cards.forEach(function(card) {
+                const title = card.querySelector('.card-title').innerText.toLowerCase();
+                card.style.display = title.indexOf(query) !== -1 ? 'flex' : 'none';
+            });
+        }
+
+        // --- 7. تبديل الوضع الليلي والنهاري ---
+        function toggleTheme() {
+            const body = document.body;
+            const icon = document.getElementById('themeIcon');
+            body.classList.toggle('light-theme');
+            icon.className = body.classList.contains('light-theme') ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+        }
+    </script>
+</body>
+</html>
